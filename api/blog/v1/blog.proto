@@ -3,6 +3,7 @@ syntax = "proto3";
 package blog.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "common/model/blog_field.proto";//github.com/SoLikeWind/XuanXiang/api/
 
 option go_package = "github.com/SoLikeWind/XuanXiang/api/blog/v1;v1";

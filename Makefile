@@ -44,6 +44,12 @@ api:
 	       --openapi_out=fq_schema_naming=true,default_response=false:. \
 	       $(API_PROTO_FILES)
 
+.PHONY: swagger
+swagger:
+	protoc --proto_path=./api \
+	       --proto_path=./third_party \
+	       --openapi_out=fq_schema_naming=true,default_response=false:. \
+	       $(API_PROTO_FILES)
 .PHONY: build
 # build
 build:
