@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.common;
+
+option go_package = "XuanXiang/api/common;common";
+option java_multiple_files = true;
+option java_package = "api.common";
+
+service 1Blog {
+	rpc Create1Blog (Create1BlogRequest) returns (Create1BlogReply);
+	rpc Update1Blog (Update1BlogRequest) returns (Update1BlogReply);
+	rpc Delete1Blog (Delete1BlogRequest) returns (Delete1BlogReply);
+	rpc Get1Blog (Get1BlogRequest) returns (Get1BlogReply);
+	rpc List1Blog (List1BlogRequest) returns (List1BlogReply);
+}
+
+message Create1BlogRequest {}
+message Create1BlogReply {}
+
+message Update1BlogRequest {}
+message Update1BlogReply {}
+
+message Delete1BlogRequest {}
+message Delete1BlogReply {}
+
+message Get1BlogRequest {}
+message Get1BlogReply {}
+
+message List1BlogRequest {}
+message List1BlogReply {}

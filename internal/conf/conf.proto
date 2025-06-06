@@ -6,8 +6,9 @@ option go_package = "XuanXiang/internal/conf;conf";
 import "google/protobuf/duration.proto";
 
 message Bootstrap {
-  Server server = 1;
-  Data data = 2;
+  string log_level = 1;
+  Server server = 2;
+  Data data = 3;
 }
 
 message Server {
