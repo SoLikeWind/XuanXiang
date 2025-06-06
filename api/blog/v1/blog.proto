@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package api.blog;
+package blog.v1;
 
 import "google/api/annotations.proto";
-import "common/model/blog_field.proto";
+import "common/model/blog_field.proto";//github.com/SoLikeWind/XuanXiang/api/
 
-option go_package = "github.com/SoLikeWind/XuanXiang/api/blog;blog";
+option go_package = "github.com/SoLikeWind/XuanXiang/api/blog/v1;v1";
 
 service Blog {
 	rpc ListArticle (ListArticleRequest) returns (ListArticleReply) {
@@ -52,13 +52,13 @@ service Blog {
 			body: "*"
 		};
 	}
-	rpc UpdateTag (UpdateTagRequest) returns (UpdateTagReply) {
+	rpc UpdateTag (UpdateTagRequest) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
 			put: "/v1/blog/tag/{id}"
 			body: "*"
 		};
 	}
-	rpc DeleteTag (DeleteTagRequest) returns (DeleteTagReply) {
+	rpc DeleteTag (DeleteTagRequest) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
 			delete: "/v1/blog/tag/{id}"
 		};
@@ -120,3 +120,30 @@ message ListTagReply {
 	int64 total = 1;
 	repeated common.model.Tag tags = 2;
 }
+
+message GetTagRequest {
+	string id = 1;
+}
+
+message GetTagReply {
+	common.model.Tag tag = 1;
+}
+
+message CreateTagRequest {
+	string name = 1;
+}
+
+message CreateTagReply {
+	common.model.Tag tag = 1;
+}
+
+message UpdateTagRequest {
+	string id = 1;
+	string name = 2;
+}
+
+message DeleteTagRequest {
+	string id = 1;
+}
+
+

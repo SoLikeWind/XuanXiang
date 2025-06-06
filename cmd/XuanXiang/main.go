@@ -4,8 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"XuanXiang/internal/conf"
-
+	"github.com/SoLikeWind/XuanXiang/internal/conf"
 	zerolog_kratos "github.com/go-kratos/kratos/contrib/log/zerolog/v2"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"

@@ -6,12 +6,10 @@
 package main
 
 import (
-	"XuanXiang/internal/biz"
-	"XuanXiang/internal/conf"
-	"XuanXiang/internal/data"
-	"XuanXiang/internal/server"
-	"XuanXiang/internal/service"
-
+	"github.com/SoLikeWind/XuanXiang/internal/conf"
+	"github.com/SoLikeWind/XuanXiang/internal/data"
+	"github.com/SoLikeWind/XuanXiang/internal/server"
+	"github.com/SoLikeWind/XuanXiang/internal/service"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
@@ -19,5 +17,5 @@ import (
 
 // wireApp init kratos application.
 func wireApp(*conf.Server, *conf.Data, log.Logger) (*kratos.App, func(), error) {
-	panic(wire.Build(server.ProviderSet, data.ProviderSet, biz.ProviderSet, service.ProviderSet, newApp))
+	panic(wire.Build(server.ProviderSet, data.ProviderSet, service.ProviderSet, newApp))
 }
