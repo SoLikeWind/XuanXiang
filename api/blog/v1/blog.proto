@@ -1,30 +1,122 @@
 syntax = "proto3";
 
-package ..api.blog;
+package api.blog;
 
-option go_package = "XuanXiang/./api/blog;blog";
-option java_multiple_files = true;
-option java_package = "..api.blog";
+import "google/api/annotations.proto";
+import "common/model/blog_field.proto";
+
+option go_package = "github.com/SoLikeWind/XuanXiang/api/blog;blog";
 
 service Blog {
-	rpc CreateBlog (CreateBlogRequest) returns (CreateBlogReply);
-	rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogReply);
-	rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogReply);
-	rpc GetBlog (GetBlogRequest) returns (GetBlogReply);
-	rpc ListBlog (ListBlogRequest) returns (ListBlogReply);
+	rpc ListArticle (ListArticleRequest) returns (ListArticleReply) {
+		option (google.api.http) = {
+			get: "/v1/blog/article"
+		};
+	}
+	rpc GetArticle (GetArticleRequest) returns (GetArticleReply) {
+		option (google.api.http) = {
+			get: "/v1/blog/article/{id}"
+		};
+	}
+	rpc CreateArticle (CreateArticleRequest) returns (CreateArticleReply) {
+		option (google.api.http) = {
+			post: "/v1/blog/article"
+			body: "*"
+		};
+	}
+	rpc UpdateArticle (UpdateArticleRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			put: "/v1/blog/article/{id}"
+			body: "*"
+		};
+	}
+	rpc DeleteArticle (DeleteArticleRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/blog/article/{id}"
+		};
+	}
+
+	rpc ListTag (ListTagRequest) returns (ListTagReply) {
+		option (google.api.http) = {
+			get: "/v1/blog/tag"
+		};
+	}
+	rpc GetTag (GetTagRequest) returns (GetTagReply) {
+		option (google.api.http) = {
+			get: "/v1/blog/tag/{id}"
+		};
+	}
+	rpc CreateTag (CreateTagRequest) returns (CreateTagReply) {
+		option (google.api.http) = {
+			post: "/v1/blog/tag"
+			body: "*"
+		};
+	}
+	rpc UpdateTag (UpdateTagRequest) returns (UpdateTagReply) {
+		option (google.api.http) = {
+			put: "/v1/blog/tag/{id}"
+			body: "*"
+		};
+	}
+	rpc DeleteTag (DeleteTagRequest) returns (DeleteTagReply) {
+		option (google.api.http) = {
+			delete: "/v1/blog/tag/{id}"
+		};
+	}
+};
+
+
+message ListArticleRequest {
+	int64 page = 1;
+	int64 page_size = 2;
+	string tag = 3;
 }
 
-message CreateBlogRequest {}
-message CreateBlogReply {}
+message ListArticleReply {
+	repeated common.model.Article articles = 1;
+}
 
-message UpdateBlogRequest {}
-message UpdateBlogReply {}
+message GetArticleRequest {
+	string id = 1;
+}
 
-message DeleteBlogRequest {}
-message DeleteBlogReply {}
+message GetArticleReply {
+	common.model.Article article = 1;
+}
 
-message GetBlogRequest {}
-message GetBlogReply {}
+message CreateArticleRequest {
+    string title = 1;
+    string summary = 2;
+    optional string image = 3;
+    string content_md = 4;
+}
 
-message ListBlogRequest {}
-message ListBlogReply {}
+message CreateArticleReply {
+	common.model.Article article = 1;
+}
+
+message UpdateArticleRequest {
+    string id = 1;
+    optional string title = 2;
+    optional string summary = 3;
+    optional string image = 4;
+    optional string content_md = 5;
+}
+
+message UpdateArticleReply {
+	common.model.Article article = 1;
+}
+
+message DeleteArticleRequest {
+	string id = 1;
+}
+
+message  ListTagRequest {
+	int64 page = 1;
+	int64 page_size = 2;
+}
+
+message ListTagReply {
+	int64 total = 1;
+	repeated common.model.Tag tags = 2;
+}

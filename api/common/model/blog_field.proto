@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package api.common;
+
+option go_package = "github.com/SoLikeWind/XuanXiang;common";
+
+message Article {
+    string id = 1;
+    string title = 2;
+    string summary = 3;
+    string image = 4;
+    string content_md = 5;
+    string content_html = 6;
+    int64 views = 7;
+    google.protobuf.Timestamp created_at = 8;
+}
+
+message Tag {
+    string id = 1;
+    string name = 2;
+}
