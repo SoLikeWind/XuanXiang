@@ -2,6 +2,8 @@ package service
 
 import (
 	v1 "github.com/SoLikeWind/XuanXiang/api/blog/v1"
+	"github.com/SoLikeWind/XuanXiang/internal/data/article"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
 )
 
@@ -10,7 +12,9 @@ var ProviderSet = wire.NewSet(NewBlog)
 
 type Blog struct {
 	v1.UnimplementedBlogServer //结构体实现了所有 gRPC 方法，但每个方法都返回 Unimplemented 错误
+	log                        *log.Helper
 
+	article *article.ArticleRepo
 }
 
 func NewBlog() *Blog { return &Blog{} }

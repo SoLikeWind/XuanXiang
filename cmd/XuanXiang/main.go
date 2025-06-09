@@ -52,16 +52,6 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
 func main() {
 	flag.Parse() //解析命令行参数
 
-	// logger := log.With(zerolog.NewLogger(os.Stdout), //with：日志伴随的其他信息	//将输出记录Stout到新的日志记录器
-	// 	"ts", log.DefaultTimestamp, //添加时间戳
-	// 	"caller", log.DefaultCaller, //添加调用者信息
-	// 	"service.id", id, //添加服务ID
-	// 	"service.name", Name, //添加服务名称
-	// 	"service.version", Version, //添加服务版本
-	// 	"trace.id", tracing.TraceID(), //添加traceID
-	// 	"span.id", tracing.SpanID(), //添加spanID
-	// )
-
 	c := config.New(
 		config.WithSource(
 			file.NewSource(flagconf),

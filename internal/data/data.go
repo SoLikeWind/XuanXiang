@@ -19,11 +19,11 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo)
+var ProviderSet = wire.NewSet(NewData, NewArticleRepo)
 
 // Data .
 type Data struct {
-	db  *ent.Client
+	db  *ent.Client //包含ent.Client实例，schema信息，数据库连接信息
 	log *log.Helper
 	// TODO wrapped database client
 }
