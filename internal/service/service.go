@@ -2,7 +2,7 @@ package service
 
 import (
 	v1 "github.com/SoLikeWind/XuanXiang/api/blog/v1"
-	"github.com/SoLikeWind/XuanXiang/internal/data/article"
+	"github.com/SoLikeWind/XuanXiang/internal/data"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
 )
@@ -14,7 +14,17 @@ type Blog struct {
 	v1.UnimplementedBlogServer //结构体实现了所有 gRPC 方法，但每个方法都返回 Unimplemented 错误
 	log                        *log.Helper
 
-	article *article.ArticleRepo
+	article *data.ArticleRepo //文章业务的数据存储
+	tag     *data.TagRepo     //标签业务的数据存储
 }
 
-func NewBlog() *Blog { return &Blog{} }
+// NewBlog 实例化
+func NewBlog(
+	article *data.ArticleRepo,
+	tag *data.TagRepo,
+) *Blog {
+	return &Blog{
+		article: article,
+		tag:     tag,
+	}
+}

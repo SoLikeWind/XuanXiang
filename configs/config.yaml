@@ -10,7 +10,7 @@ data:
   database:
     driver: mysql
     source: root:123456@tcp(127.0.0.1:3306)/xuanxiang?parseTime=True&loc=Local
-  redis:
-    addr: 127.0.0.1:6379
-    read_timeout: 0.2s
-    write_timeout: 0.2s
+  # redis:
+  #   addr: 127.0.0.1:6379
+  #   read_timeout: 0.2s
+  #   write_timeout: 0.2s

@@ -19,7 +19,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewArticleRepo)
+var ProviderSet = wire.NewSet(NewData, NewArticleRepo, NewTagRepo)
 
 // Data .
 type Data struct {
@@ -30,27 +30,25 @@ type Data struct {
 
 // NewData .
 func NewData(conf *conf.Data, logger log.Logger) (*Data, func(), error) {
-	log := log.NewHelper(logger)
+	log := log.NewHelper(log.With(logger, "module", "data"))
 	drv, err := sql.Open(
 		conf.Database.Driver,
 		conf.Database.Source,
 	)
-	//为一个数据库驱动程序添加调试和追踪功能，然后使用该驱动程序初始化一个新的ent.Client实例
 	sqlDrv := dialect.DebugWithContext(drv, func(ctx context.Context, i ...interface{}) {
-		//下面是返回值：驱动
-		log.WithContext(ctx).Info(i...) //返回一个helper的拷贝，记录这些参数（即查询信息）
-		tracer := otel.Tracer("ent.")   //创建追踪器ent.
-		kind := trace.SpanKindServer    //客户端请求操作的跨度的跨度种类,为常数2
+		log.WithContext(ctx).Info(i...)
+		tracer := otel.Tracer("ent.")
+		kind := trace.SpanKindServer
 		_, span := tracer.Start(ctx,
 			"Query",
-			trace.WithAttributes( //添加与跨生命周期事件相关的属性。
-				attribute.String("db.system", fmt.Sprint(i...)),
+			trace.WithAttributes(
+				attribute.String("sql", fmt.Sprint(i...)),
 			),
-			trace.WithSpanKind(kind), //设置跨度类型
+			trace.WithSpanKind(kind),
 		)
-		defer span.End() //结束
+		span.End()
 	})
-	client := ent.NewClient(ent.Driver(sqlDrv)) //新建一个ent实例，配置客户端驱动程序。
+	client := ent.NewClient(ent.Driver(sqlDrv))
 	if err != nil {
 		log.Errorf("failed opening connection to sqlite: %v", err)
 		return nil, nil, err
@@ -62,16 +60,13 @@ func NewData(conf *conf.Data, logger log.Logger) (*Data, func(), error) {
 	}
 
 	d := &Data{
-		db: client,
+		db:  client,
+		log: log,
 	}
-
 	return d, func() {
 		log.Info("message", "closing the data resources")
 		if err := d.db.Close(); err != nil {
 			log.Error(err)
 		}
-		//if err := d.rdb.Close(); err != nil {
-		//	log.Error(err)
-		//}
 	}, nil
 }
