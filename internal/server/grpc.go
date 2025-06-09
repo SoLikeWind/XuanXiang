@@ -26,8 +26,8 @@ func NewGRPCServer(c *conf.Server, blog *service.Blog, logger log.Logger) *grpc.
 	if c.Grpc.Timeout != nil {
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
-	srv := grpc.NewServer(opts...)
+	httpSrv := grpc.NewServer(opts...)
 
-	v1.RegisterBlogServer(srv, blog)
-	return srv
+	v1.RegisterBlogServer(httpSrv, blog)
+	return httpSrv
 }

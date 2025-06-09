@@ -7,7 +7,10 @@
 package main
 
 import (
-
+	"github.com/SoLikeWind/XuanXiang/internal/conf"
+	"github.com/SoLikeWind/XuanXiang/internal/data"
+	"github.com/SoLikeWind/XuanXiang/internal/server"
+	"github.com/SoLikeWind/XuanXiang/internal/service"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 )
@@ -24,11 +27,11 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	if err != nil {
 		return nil, nil, err
 	}
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUsecase)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, logger)
+	articleRepo := data.NewArticleRepo(dataData, logger)
+	tagRepo := data.NewTagRepo(dataData, logger)
+	blog := service.NewBlog(articleRepo, tagRepo)
+	grpcServer := server.NewGRPCServer(confServer, blog, logger)
+	httpServer := server.NewHTTPServer(confServer, blog, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

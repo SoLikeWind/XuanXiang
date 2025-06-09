@@ -32,16 +32,16 @@ const OperationBlogUpdateArticle = "/blog.v1.Blog/UpdateArticle"
 const OperationBlogUpdateTag = "/blog.v1.Blog/UpdateTag"
 
 type BlogHTTPServer interface {
-	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
-	CreateTag(context.Context, *CreateTagRequest) (*CreateTagReply, error)
-	DeleteArticle(context.Context, *DeleteArticleRequest) (*emptypb.Empty, error)
-	DeleteTag(context.Context, *DeleteTagRequest) (*emptypb.Empty, error)
-	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
-	GetTag(context.Context, *GetTagRequest) (*GetTagReply, error)
-	ListArticle(context.Context, *ListArticleRequest) (*ListArticleReply, error)
-	ListTag(context.Context, *ListTagRequest) (*ListTagReply, error)
-	UpdateArticle(context.Context, *UpdateArticleRequest) (*emptypb.Empty, error)
-	UpdateTag(context.Context, *UpdateTagRequest) (*emptypb.Empty, error)
+	CreateArticle(context.Context, *CreateArticleReq) (*CreateArticleReply, error)
+	CreateTag(context.Context, *CreateTagReq) (*CreateTagReply, error)
+	DeleteArticle(context.Context, *DeleteArticleReq) (*emptypb.Empty, error)
+	DeleteTag(context.Context, *DeleteTagReq) (*emptypb.Empty, error)
+	GetArticle(context.Context, *GetArticleReq) (*GetArticleReply, error)
+	GetTag(context.Context, *GetTagReq) (*GetTagReply, error)
+	ListArticle(context.Context, *ListArticleReq) (*ListArticleReply, error)
+	ListTag(context.Context, *ListTagReq) (*ListTagReply, error)
+	UpdateArticle(context.Context, *UpdateArticleReq) (*emptypb.Empty, error)
+	UpdateTag(context.Context, *UpdateTagReq) (*emptypb.Empty, error)
 }
 
 func RegisterBlogHTTPServer(s *http.Server, srv BlogHTTPServer) {
@@ -60,13 +60,13 @@ func RegisterBlogHTTPServer(s *http.Server, srv BlogHTTPServer) {
 
 func _Blog_ListArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in ListArticleRequest
+		var in ListArticleReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationBlogListArticle)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListArticle(ctx, req.(*ListArticleRequest))
+			return srv.ListArticle(ctx, req.(*ListArticleReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -79,7 +79,7 @@ func _Blog_ListArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) 
 
 func _Blog_GetArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in GetArticleRequest
+		var in GetArticleReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -88,7 +88,7 @@ func _Blog_GetArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) e
 		}
 		http.SetOperation(ctx, OperationBlogGetArticle)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetArticle(ctx, req.(*GetArticleRequest))
+			return srv.GetArticle(ctx, req.(*GetArticleReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -101,7 +101,7 @@ func _Blog_GetArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) e
 
 func _Blog_CreateArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in CreateArticleRequest
+		var in CreateArticleReq
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -110,7 +110,7 @@ func _Blog_CreateArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context
 		}
 		http.SetOperation(ctx, OperationBlogCreateArticle)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateArticle(ctx, req.(*CreateArticleRequest))
+			return srv.CreateArticle(ctx, req.(*CreateArticleReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -123,7 +123,7 @@ func _Blog_CreateArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context
 
 func _Blog_UpdateArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in UpdateArticleRequest
+		var in UpdateArticleReq
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -135,7 +135,7 @@ func _Blog_UpdateArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context
 		}
 		http.SetOperation(ctx, OperationBlogUpdateArticle)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateArticle(ctx, req.(*UpdateArticleRequest))
+			return srv.UpdateArticle(ctx, req.(*UpdateArticleReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -148,7 +148,7 @@ func _Blog_UpdateArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context
 
 func _Blog_DeleteArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in DeleteArticleRequest
+		var in DeleteArticleReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -157,7 +157,7 @@ func _Blog_DeleteArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context
 		}
 		http.SetOperation(ctx, OperationBlogDeleteArticle)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteArticle(ctx, req.(*DeleteArticleRequest))
+			return srv.DeleteArticle(ctx, req.(*DeleteArticleReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -170,13 +170,13 @@ func _Blog_DeleteArticle0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context
 
 func _Blog_ListTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in ListTagRequest
+		var in ListTagReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationBlogListTag)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListTag(ctx, req.(*ListTagRequest))
+			return srv.ListTag(ctx, req.(*ListTagReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -189,7 +189,7 @@ func _Blog_ListTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) erro
 
 func _Blog_GetTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in GetTagRequest
+		var in GetTagReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -198,7 +198,7 @@ func _Blog_GetTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error
 		}
 		http.SetOperation(ctx, OperationBlogGetTag)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetTag(ctx, req.(*GetTagRequest))
+			return srv.GetTag(ctx, req.(*GetTagReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -211,7 +211,7 @@ func _Blog_GetTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error
 
 func _Blog_CreateTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in CreateTagRequest
+		var in CreateTagReq
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -220,7 +220,7 @@ func _Blog_CreateTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) er
 		}
 		http.SetOperation(ctx, OperationBlogCreateTag)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateTag(ctx, req.(*CreateTagRequest))
+			return srv.CreateTag(ctx, req.(*CreateTagReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -233,7 +233,7 @@ func _Blog_CreateTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) er
 
 func _Blog_UpdateTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in UpdateTagRequest
+		var in UpdateTagReq
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -245,7 +245,7 @@ func _Blog_UpdateTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) er
 		}
 		http.SetOperation(ctx, OperationBlogUpdateTag)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateTag(ctx, req.(*UpdateTagRequest))
+			return srv.UpdateTag(ctx, req.(*UpdateTagReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -258,7 +258,7 @@ func _Blog_UpdateTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) er
 
 func _Blog_DeleteTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in DeleteTagRequest
+		var in DeleteTagReq
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -267,7 +267,7 @@ func _Blog_DeleteTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) er
 		}
 		http.SetOperation(ctx, OperationBlogDeleteTag)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteTag(ctx, req.(*DeleteTagRequest))
+			return srv.DeleteTag(ctx, req.(*DeleteTagReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -279,16 +279,16 @@ func _Blog_DeleteTag0_HTTP_Handler(srv BlogHTTPServer) func(ctx http.Context) er
 }
 
 type BlogHTTPClient interface {
-	CreateArticle(ctx context.Context, req *CreateArticleRequest, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
-	CreateTag(ctx context.Context, req *CreateTagRequest, opts ...http.CallOption) (rsp *CreateTagReply, err error)
-	DeleteArticle(ctx context.Context, req *DeleteArticleRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteTag(ctx context.Context, req *DeleteTagRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetArticle(ctx context.Context, req *GetArticleRequest, opts ...http.CallOption) (rsp *GetArticleReply, err error)
-	GetTag(ctx context.Context, req *GetTagRequest, opts ...http.CallOption) (rsp *GetTagReply, err error)
-	ListArticle(ctx context.Context, req *ListArticleRequest, opts ...http.CallOption) (rsp *ListArticleReply, err error)
-	ListTag(ctx context.Context, req *ListTagRequest, opts ...http.CallOption) (rsp *ListTagReply, err error)
-	UpdateArticle(ctx context.Context, req *UpdateArticleRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	UpdateTag(ctx context.Context, req *UpdateTagRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	CreateArticle(ctx context.Context, req *CreateArticleReq, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
+	CreateTag(ctx context.Context, req *CreateTagReq, opts ...http.CallOption) (rsp *CreateTagReply, err error)
+	DeleteArticle(ctx context.Context, req *DeleteArticleReq, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	DeleteTag(ctx context.Context, req *DeleteTagReq, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	GetArticle(ctx context.Context, req *GetArticleReq, opts ...http.CallOption) (rsp *GetArticleReply, err error)
+	GetTag(ctx context.Context, req *GetTagReq, opts ...http.CallOption) (rsp *GetTagReply, err error)
+	ListArticle(ctx context.Context, req *ListArticleReq, opts ...http.CallOption) (rsp *ListArticleReply, err error)
+	ListTag(ctx context.Context, req *ListTagReq, opts ...http.CallOption) (rsp *ListTagReply, err error)
+	UpdateArticle(ctx context.Context, req *UpdateArticleReq, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	UpdateTag(ctx context.Context, req *UpdateTagReq, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type BlogHTTPClientImpl struct {
@@ -299,7 +299,7 @@ func NewBlogHTTPClient(client *http.Client) BlogHTTPClient {
 	return &BlogHTTPClientImpl{client}
 }
 
-func (c *BlogHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...http.CallOption) (*CreateArticleReply, error) {
+func (c *BlogHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateArticleReq, opts ...http.CallOption) (*CreateArticleReply, error) {
 	var out CreateArticleReply
 	pattern := "/v1/blog/article"
 	path := binding.EncodeURL(pattern, in, false)
@@ -312,7 +312,7 @@ func (c *BlogHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateArticl
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) CreateTag(ctx context.Context, in *CreateTagRequest, opts ...http.CallOption) (*CreateTagReply, error) {
+func (c *BlogHTTPClientImpl) CreateTag(ctx context.Context, in *CreateTagReq, opts ...http.CallOption) (*CreateTagReply, error) {
 	var out CreateTagReply
 	pattern := "/v1/blog/tag"
 	path := binding.EncodeURL(pattern, in, false)
@@ -325,7 +325,7 @@ func (c *BlogHTTPClientImpl) CreateTag(ctx context.Context, in *CreateTagRequest
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *BlogHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticleReq, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/v1/blog/article/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -338,7 +338,7 @@ func (c *BlogHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticl
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) DeleteTag(ctx context.Context, in *DeleteTagRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *BlogHTTPClientImpl) DeleteTag(ctx context.Context, in *DeleteTagReq, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/v1/blog/tag/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -351,7 +351,7 @@ func (c *BlogHTTPClientImpl) DeleteTag(ctx context.Context, in *DeleteTagRequest
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) GetArticle(ctx context.Context, in *GetArticleRequest, opts ...http.CallOption) (*GetArticleReply, error) {
+func (c *BlogHTTPClientImpl) GetArticle(ctx context.Context, in *GetArticleReq, opts ...http.CallOption) (*GetArticleReply, error) {
 	var out GetArticleReply
 	pattern := "/v1/blog/article/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -364,7 +364,7 @@ func (c *BlogHTTPClientImpl) GetArticle(ctx context.Context, in *GetArticleReque
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) GetTag(ctx context.Context, in *GetTagRequest, opts ...http.CallOption) (*GetTagReply, error) {
+func (c *BlogHTTPClientImpl) GetTag(ctx context.Context, in *GetTagReq, opts ...http.CallOption) (*GetTagReply, error) {
 	var out GetTagReply
 	pattern := "/v1/blog/tag/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -377,7 +377,7 @@ func (c *BlogHTTPClientImpl) GetTag(ctx context.Context, in *GetTagRequest, opts
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) ListArticle(ctx context.Context, in *ListArticleRequest, opts ...http.CallOption) (*ListArticleReply, error) {
+func (c *BlogHTTPClientImpl) ListArticle(ctx context.Context, in *ListArticleReq, opts ...http.CallOption) (*ListArticleReply, error) {
 	var out ListArticleReply
 	pattern := "/v1/blog/article"
 	path := binding.EncodeURL(pattern, in, true)
@@ -390,7 +390,7 @@ func (c *BlogHTTPClientImpl) ListArticle(ctx context.Context, in *ListArticleReq
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) ListTag(ctx context.Context, in *ListTagRequest, opts ...http.CallOption) (*ListTagReply, error) {
+func (c *BlogHTTPClientImpl) ListTag(ctx context.Context, in *ListTagReq, opts ...http.CallOption) (*ListTagReply, error) {
 	var out ListTagReply
 	pattern := "/v1/blog/tag"
 	path := binding.EncodeURL(pattern, in, true)
@@ -403,7 +403,7 @@ func (c *BlogHTTPClientImpl) ListTag(ctx context.Context, in *ListTagRequest, op
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *BlogHTTPClientImpl) UpdateArticle(ctx context.Context, in *UpdateArticleReq, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/v1/blog/article/{id}"
 	path := binding.EncodeURL(pattern, in, false)
@@ -416,7 +416,7 @@ func (c *BlogHTTPClientImpl) UpdateArticle(ctx context.Context, in *UpdateArticl
 	return &out, nil
 }
 
-func (c *BlogHTTPClientImpl) UpdateTag(ctx context.Context, in *UpdateTagRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *BlogHTTPClientImpl) UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/v1/blog/tag/{id}"
 	path := binding.EncodeURL(pattern, in, false)

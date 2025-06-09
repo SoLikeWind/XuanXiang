@@ -36,16 +36,16 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BlogClient interface {
-	ListArticle(ctx context.Context, in *ListArticleRequest, opts ...grpc.CallOption) (*ListArticleReply, error)
-	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleReply, error)
-	CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error)
-	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	ListTag(ctx context.Context, in *ListTagRequest, opts ...grpc.CallOption) (*ListTagReply, error)
-	GetTag(ctx context.Context, in *GetTagRequest, opts ...grpc.CallOption) (*GetTagReply, error)
-	CreateTag(ctx context.Context, in *CreateTagRequest, opts ...grpc.CallOption) (*CreateTagReply, error)
-	UpdateTag(ctx context.Context, in *UpdateTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	DeleteTag(ctx context.Context, in *DeleteTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ListArticle(ctx context.Context, in *ListArticleReq, opts ...grpc.CallOption) (*ListArticleReply, error)
+	GetArticle(ctx context.Context, in *GetArticleReq, opts ...grpc.CallOption) (*GetArticleReply, error)
+	CreateArticle(ctx context.Context, in *CreateArticleReq, opts ...grpc.CallOption) (*CreateArticleReply, error)
+	UpdateArticle(ctx context.Context, in *UpdateArticleReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteArticle(ctx context.Context, in *DeleteArticleReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ListTag(ctx context.Context, in *ListTagReq, opts ...grpc.CallOption) (*ListTagReply, error)
+	GetTag(ctx context.Context, in *GetTagReq, opts ...grpc.CallOption) (*GetTagReply, error)
+	CreateTag(ctx context.Context, in *CreateTagReq, opts ...grpc.CallOption) (*CreateTagReply, error)
+	UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteTag(ctx context.Context, in *DeleteTagReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type blogClient struct {
@@ -56,7 +56,7 @@ func NewBlogClient(cc grpc.ClientConnInterface) BlogClient {
 	return &blogClient{cc}
 }
 
-func (c *blogClient) ListArticle(ctx context.Context, in *ListArticleRequest, opts ...grpc.CallOption) (*ListArticleReply, error) {
+func (c *blogClient) ListArticle(ctx context.Context, in *ListArticleReq, opts ...grpc.CallOption) (*ListArticleReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListArticleReply)
 	err := c.cc.Invoke(ctx, Blog_ListArticle_FullMethodName, in, out, cOpts...)
@@ -66,7 +66,7 @@ func (c *blogClient) ListArticle(ctx context.Context, in *ListArticleRequest, op
 	return out, nil
 }
 
-func (c *blogClient) GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleReply, error) {
+func (c *blogClient) GetArticle(ctx context.Context, in *GetArticleReq, opts ...grpc.CallOption) (*GetArticleReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetArticleReply)
 	err := c.cc.Invoke(ctx, Blog_GetArticle_FullMethodName, in, out, cOpts...)
@@ -76,7 +76,7 @@ func (c *blogClient) GetArticle(ctx context.Context, in *GetArticleRequest, opts
 	return out, nil
 }
 
-func (c *blogClient) CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error) {
+func (c *blogClient) CreateArticle(ctx context.Context, in *CreateArticleReq, opts ...grpc.CallOption) (*CreateArticleReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateArticleReply)
 	err := c.cc.Invoke(ctx, Blog_CreateArticle_FullMethodName, in, out, cOpts...)
@@ -86,7 +86,7 @@ func (c *blogClient) CreateArticle(ctx context.Context, in *CreateArticleRequest
 	return out, nil
 }
 
-func (c *blogClient) UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *blogClient) UpdateArticle(ctx context.Context, in *UpdateArticleReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Blog_UpdateArticle_FullMethodName, in, out, cOpts...)
@@ -96,7 +96,7 @@ func (c *blogClient) UpdateArticle(ctx context.Context, in *UpdateArticleRequest
 	return out, nil
 }
 
-func (c *blogClient) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *blogClient) DeleteArticle(ctx context.Context, in *DeleteArticleReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Blog_DeleteArticle_FullMethodName, in, out, cOpts...)
@@ -106,7 +106,7 @@ func (c *blogClient) DeleteArticle(ctx context.Context, in *DeleteArticleRequest
 	return out, nil
 }
 
-func (c *blogClient) ListTag(ctx context.Context, in *ListTagRequest, opts ...grpc.CallOption) (*ListTagReply, error) {
+func (c *blogClient) ListTag(ctx context.Context, in *ListTagReq, opts ...grpc.CallOption) (*ListTagReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListTagReply)
 	err := c.cc.Invoke(ctx, Blog_ListTag_FullMethodName, in, out, cOpts...)
@@ -116,7 +116,7 @@ func (c *blogClient) ListTag(ctx context.Context, in *ListTagRequest, opts ...gr
 	return out, nil
 }
 
-func (c *blogClient) GetTag(ctx context.Context, in *GetTagRequest, opts ...grpc.CallOption) (*GetTagReply, error) {
+func (c *blogClient) GetTag(ctx context.Context, in *GetTagReq, opts ...grpc.CallOption) (*GetTagReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetTagReply)
 	err := c.cc.Invoke(ctx, Blog_GetTag_FullMethodName, in, out, cOpts...)
@@ -126,7 +126,7 @@ func (c *blogClient) GetTag(ctx context.Context, in *GetTagRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *blogClient) CreateTag(ctx context.Context, in *CreateTagRequest, opts ...grpc.CallOption) (*CreateTagReply, error) {
+func (c *blogClient) CreateTag(ctx context.Context, in *CreateTagReq, opts ...grpc.CallOption) (*CreateTagReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateTagReply)
 	err := c.cc.Invoke(ctx, Blog_CreateTag_FullMethodName, in, out, cOpts...)
@@ -136,7 +136,7 @@ func (c *blogClient) CreateTag(ctx context.Context, in *CreateTagRequest, opts .
 	return out, nil
 }
 
-func (c *blogClient) UpdateTag(ctx context.Context, in *UpdateTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *blogClient) UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Blog_UpdateTag_FullMethodName, in, out, cOpts...)
@@ -146,7 +146,7 @@ func (c *blogClient) UpdateTag(ctx context.Context, in *UpdateTagRequest, opts .
 	return out, nil
 }
 
-func (c *blogClient) DeleteTag(ctx context.Context, in *DeleteTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *blogClient) DeleteTag(ctx context.Context, in *DeleteTagReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Blog_DeleteTag_FullMethodName, in, out, cOpts...)
@@ -160,16 +160,16 @@ func (c *blogClient) DeleteTag(ctx context.Context, in *DeleteTagRequest, opts .
 // All implementations must embed UnimplementedBlogServer
 // for forward compatibility.
 type BlogServer interface {
-	ListArticle(context.Context, *ListArticleRequest) (*ListArticleReply, error)
-	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
-	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
-	UpdateArticle(context.Context, *UpdateArticleRequest) (*emptypb.Empty, error)
-	DeleteArticle(context.Context, *DeleteArticleRequest) (*emptypb.Empty, error)
-	ListTag(context.Context, *ListTagRequest) (*ListTagReply, error)
-	GetTag(context.Context, *GetTagRequest) (*GetTagReply, error)
-	CreateTag(context.Context, *CreateTagRequest) (*CreateTagReply, error)
-	UpdateTag(context.Context, *UpdateTagRequest) (*emptypb.Empty, error)
-	DeleteTag(context.Context, *DeleteTagRequest) (*emptypb.Empty, error)
+	ListArticle(context.Context, *ListArticleReq) (*ListArticleReply, error)
+	GetArticle(context.Context, *GetArticleReq) (*GetArticleReply, error)
+	CreateArticle(context.Context, *CreateArticleReq) (*CreateArticleReply, error)
+	UpdateArticle(context.Context, *UpdateArticleReq) (*emptypb.Empty, error)
+	DeleteArticle(context.Context, *DeleteArticleReq) (*emptypb.Empty, error)
+	ListTag(context.Context, *ListTagReq) (*ListTagReply, error)
+	GetTag(context.Context, *GetTagReq) (*GetTagReply, error)
+	CreateTag(context.Context, *CreateTagReq) (*CreateTagReply, error)
+	UpdateTag(context.Context, *UpdateTagReq) (*emptypb.Empty, error)
+	DeleteTag(context.Context, *DeleteTagReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedBlogServer()
 }
 
@@ -180,34 +180,34 @@ type BlogServer interface {
 // pointer dereference when methods are called.
 type UnimplementedBlogServer struct{}
 
-func (UnimplementedBlogServer) ListArticle(context.Context, *ListArticleRequest) (*ListArticleReply, error) {
+func (UnimplementedBlogServer) ListArticle(context.Context, *ListArticleReq) (*ListArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArticle not implemented")
 }
-func (UnimplementedBlogServer) GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error) {
+func (UnimplementedBlogServer) GetArticle(context.Context, *GetArticleReq) (*GetArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetArticle not implemented")
 }
-func (UnimplementedBlogServer) CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error) {
+func (UnimplementedBlogServer) CreateArticle(context.Context, *CreateArticleReq) (*CreateArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateArticle not implemented")
 }
-func (UnimplementedBlogServer) UpdateArticle(context.Context, *UpdateArticleRequest) (*emptypb.Empty, error) {
+func (UnimplementedBlogServer) UpdateArticle(context.Context, *UpdateArticleReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
 }
-func (UnimplementedBlogServer) DeleteArticle(context.Context, *DeleteArticleRequest) (*emptypb.Empty, error) {
+func (UnimplementedBlogServer) DeleteArticle(context.Context, *DeleteArticleReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticle not implemented")
 }
-func (UnimplementedBlogServer) ListTag(context.Context, *ListTagRequest) (*ListTagReply, error) {
+func (UnimplementedBlogServer) ListTag(context.Context, *ListTagReq) (*ListTagReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTag not implemented")
 }
-func (UnimplementedBlogServer) GetTag(context.Context, *GetTagRequest) (*GetTagReply, error) {
+func (UnimplementedBlogServer) GetTag(context.Context, *GetTagReq) (*GetTagReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTag not implemented")
 }
-func (UnimplementedBlogServer) CreateTag(context.Context, *CreateTagRequest) (*CreateTagReply, error) {
+func (UnimplementedBlogServer) CreateTag(context.Context, *CreateTagReq) (*CreateTagReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTag not implemented")
 }
-func (UnimplementedBlogServer) UpdateTag(context.Context, *UpdateTagRequest) (*emptypb.Empty, error) {
+func (UnimplementedBlogServer) UpdateTag(context.Context, *UpdateTagReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTag not implemented")
 }
-func (UnimplementedBlogServer) DeleteTag(context.Context, *DeleteTagRequest) (*emptypb.Empty, error) {
+func (UnimplementedBlogServer) DeleteTag(context.Context, *DeleteTagReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTag not implemented")
 }
 func (UnimplementedBlogServer) mustEmbedUnimplementedBlogServer() {}
@@ -232,7 +232,7 @@ func RegisterBlogServer(s grpc.ServiceRegistrar, srv BlogServer) {
 }
 
 func _Blog_ListArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListArticleRequest)
+	in := new(ListArticleReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -244,13 +244,13 @@ func _Blog_ListArticle_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Blog_ListArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).ListArticle(ctx, req.(*ListArticleRequest))
+		return srv.(BlogServer).ListArticle(ctx, req.(*ListArticleReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_GetArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetArticleRequest)
+	in := new(GetArticleReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -262,13 +262,13 @@ func _Blog_GetArticle_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: Blog_GetArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).GetArticle(ctx, req.(*GetArticleRequest))
+		return srv.(BlogServer).GetArticle(ctx, req.(*GetArticleReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_CreateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateArticleRequest)
+	in := new(CreateArticleReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -280,13 +280,13 @@ func _Blog_CreateArticle_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Blog_CreateArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).CreateArticle(ctx, req.(*CreateArticleRequest))
+		return srv.(BlogServer).CreateArticle(ctx, req.(*CreateArticleReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_UpdateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateArticleRequest)
+	in := new(UpdateArticleReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -298,13 +298,13 @@ func _Blog_UpdateArticle_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Blog_UpdateArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).UpdateArticle(ctx, req.(*UpdateArticleRequest))
+		return srv.(BlogServer).UpdateArticle(ctx, req.(*UpdateArticleReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_DeleteArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteArticleRequest)
+	in := new(DeleteArticleReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -316,13 +316,13 @@ func _Blog_DeleteArticle_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Blog_DeleteArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).DeleteArticle(ctx, req.(*DeleteArticleRequest))
+		return srv.(BlogServer).DeleteArticle(ctx, req.(*DeleteArticleReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_ListTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTagRequest)
+	in := new(ListTagReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -334,13 +334,13 @@ func _Blog_ListTag_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: Blog_ListTag_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).ListTag(ctx, req.(*ListTagRequest))
+		return srv.(BlogServer).ListTag(ctx, req.(*ListTagReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_GetTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTagRequest)
+	in := new(GetTagReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -352,13 +352,13 @@ func _Blog_GetTag_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: Blog_GetTag_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).GetTag(ctx, req.(*GetTagRequest))
+		return srv.(BlogServer).GetTag(ctx, req.(*GetTagReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_CreateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTagRequest)
+	in := new(CreateTagReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -370,13 +370,13 @@ func _Blog_CreateTag_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: Blog_CreateTag_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).CreateTag(ctx, req.(*CreateTagRequest))
+		return srv.(BlogServer).CreateTag(ctx, req.(*CreateTagReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_UpdateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTagRequest)
+	in := new(UpdateTagReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -388,13 +388,13 @@ func _Blog_UpdateTag_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: Blog_UpdateTag_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).UpdateTag(ctx, req.(*UpdateTagRequest))
+		return srv.(BlogServer).UpdateTag(ctx, req.(*UpdateTagReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Blog_DeleteTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTagRequest)
+	in := new(DeleteTagReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -406,7 +406,7 @@ func _Blog_DeleteTag_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: Blog_DeleteTag_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BlogServer).DeleteTag(ctx, req.(*DeleteTagRequest))
+		return srv.(BlogServer).DeleteTag(ctx, req.(*DeleteTagReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

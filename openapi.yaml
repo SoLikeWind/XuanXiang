@@ -39,7 +39,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/blog.v1.CreateArticleRequest'
+                            $ref: '#/components/schemas/blog.v1.CreateArticleReq'
                 required: true
             responses:
                 "200":
@@ -80,7 +80,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/blog.v1.UpdateArticleRequest'
+                            $ref: '#/components/schemas/blog.v1.UpdateArticleReq'
                 required: true
             responses:
                 "200":
@@ -129,7 +129,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/blog.v1.CreateTagRequest'
+                            $ref: '#/components/schemas/blog.v1.CreateTagReq'
                 required: true
             responses:
                 "200":
@@ -170,7 +170,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/blog.v1.UpdateTagRequest'
+                            $ref: '#/components/schemas/blog.v1.UpdateTagReq'
                 required: true
             responses:
                 "200":
@@ -197,7 +197,7 @@ components:
             properties:
                 article:
                     $ref: '#/components/schemas/common.model.Article'
-        blog.v1.CreateArticleRequest:
+        blog.v1.CreateArticleReq:
             type: object
             properties:
                 title:
@@ -213,7 +213,7 @@ components:
             properties:
                 tag:
                     $ref: '#/components/schemas/common.model.Tag'
-        blog.v1.CreateTagRequest:
+        blog.v1.CreateTagReq:
             type: object
             properties:
                 name:
@@ -244,7 +244,7 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/common.model.Tag'
-        blog.v1.UpdateArticleRequest:
+        blog.v1.UpdateArticleReq:
             type: object
             properties:
                 id:
@@ -257,7 +257,7 @@ components:
                     type: string
                 contentMd:
                     type: string
-        blog.v1.UpdateTagRequest:
+        blog.v1.UpdateTagReq:
             type: object
             properties:
                 id:

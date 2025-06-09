@@ -9,57 +9,57 @@ import "common/model/blog_field.proto";//github.com/SoLikeWind/XuanXiang/api/
 option go_package = "github.com/SoLikeWind/XuanXiang/api/blog/v1;v1";
 
 service Blog {
-	rpc ListArticle (ListArticleRequest) returns (ListArticleReply) {
+	rpc ListArticle (ListArticleReq) returns (ListArticleReply) {
 		option (google.api.http) = {
 			get: "/v1/blog/article"
 		};
 	}
-	rpc GetArticle (GetArticleRequest) returns (GetArticleReply) {
+	rpc GetArticle (GetArticleReq) returns (GetArticleReply) {
 		option (google.api.http) = {
 			get: "/v1/blog/article/{id}"
 		};
 	}
-	rpc CreateArticle (CreateArticleRequest) returns (CreateArticleReply) {
+	rpc CreateArticle (CreateArticleReq) returns (CreateArticleReply) {
 		option (google.api.http) = {
 			post: "/v1/blog/article"
 			body: "*"
 		};
 	}
-	rpc UpdateArticle (UpdateArticleRequest) returns (google.protobuf.Empty) {
+	rpc UpdateArticle (UpdateArticleReq) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
 			put: "/v1/blog/article/{id}"
 			body: "*"
 		};
 	}
-	rpc DeleteArticle (DeleteArticleRequest) returns (google.protobuf.Empty) {
+	rpc DeleteArticle (DeleteArticleReq) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
 			delete: "/v1/blog/article/{id}"
 		};
 	}
 
-	rpc ListTag (ListTagRequest) returns (ListTagReply) {
+	rpc ListTag (ListTagReq) returns (ListTagReply) {
 		option (google.api.http) = {
 			get: "/v1/blog/tag"
 		};
 	}
-	rpc GetTag (GetTagRequest) returns (GetTagReply) {
+	rpc GetTag (GetTagReq) returns (GetTagReply) {
 		option (google.api.http) = {
 			get: "/v1/blog/tag/{id}"
 		};
 	}
-	rpc CreateTag (CreateTagRequest) returns (CreateTagReply) {
+	rpc CreateTag (CreateTagReq) returns (CreateTagReply) {
 		option (google.api.http) = {
 			post: "/v1/blog/tag"
 			body: "*"
 		};
 	}
-	rpc UpdateTag (UpdateTagRequest) returns (google.protobuf.Empty) {
+	rpc UpdateTag (UpdateTagReq) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
 			put: "/v1/blog/tag/{id}"
 			body: "*"
 		};
 	}
-	rpc DeleteTag (DeleteTagRequest) returns (google.protobuf.Empty) {
+	rpc DeleteTag (DeleteTagReq) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
 			delete: "/v1/blog/tag/{id}"
 		};
@@ -67,7 +67,7 @@ service Blog {
 };
 
 
-message ListArticleRequest {
+message ListArticleReq {
 	int64 page = 1;
 	int64 page_size = 2;
 	string tag = 3;
@@ -77,7 +77,7 @@ message ListArticleReply {
 	repeated common.model.Article articles = 1;
 }
 
-message GetArticleRequest {
+message GetArticleReq {
 	string id = 1;
 }
 
@@ -85,7 +85,7 @@ message GetArticleReply {
 	common.model.Article article = 1;
 }
 
-message CreateArticleRequest {
+message CreateArticleReq {
     string title = 1;
     string summary = 2;
     optional string image = 3;
@@ -96,7 +96,7 @@ message CreateArticleReply {
 	common.model.Article article = 1;
 }
 
-message UpdateArticleRequest {
+message UpdateArticleReq {
     string id = 1;
     optional string title = 2;
     optional string summary = 3;
@@ -108,11 +108,11 @@ message UpdateArticleReply {
 	common.model.Article article = 1;
 }
 
-message DeleteArticleRequest {
+message DeleteArticleReq {
 	string id = 1;
 }
 
-message  ListTagRequest {
+message  ListTagReq {
 	int64 page = 1;
 	int64 page_size = 2;
 }
@@ -122,7 +122,7 @@ message ListTagReply {
 	repeated common.model.Tag tags = 2;
 }
 
-message GetTagRequest {
+message GetTagReq {
 	string id = 1;
 }
 
@@ -130,7 +130,7 @@ message GetTagReply {
 	common.model.Tag tag = 1;
 }
 
-message CreateTagRequest {
+message CreateTagReq {
 	string name = 1;
 }
 
@@ -138,12 +138,12 @@ message CreateTagReply {
 	common.model.Tag tag = 1;
 }
 
-message UpdateTagRequest {
+message UpdateTagReq {
 	string id = 1;
 	string name = 2;
 }
 
-message DeleteTagRequest {
+message DeleteTagReq {
 	string id = 1;
 }
 

@@ -1,6 +1,8 @@
 package server
 
 import (
+	"fmt"
+
 	v1 "github.com/SoLikeWind/XuanXiang/api/blog/v1"
 	"github.com/SoLikeWind/XuanXiang/internal/conf"
 	"github.com/SoLikeWind/XuanXiang/internal/service"
@@ -15,8 +17,7 @@ import (
 
 // NewHTTPServer new an HTTP server.
 func NewHTTPServer(c *conf.Server,
-	blog *service.Blog,
-
+	blog *service.BlogService,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
@@ -28,12 +29,15 @@ func NewHTTPServer(c *conf.Server,
 	}
 	if c.Http.Network != "" { //配置文件中配置了网络类型
 		opts = append(opts, http.Network(c.Http.Network)) //http类型
+		fmt.Println("http network:", c.Http.Network)
 	}
 	if c.Http.Addr != "" { //配置文件中配置了地址
 		opts = append(opts, http.Address(c.Http.Addr))
+		fmt.Println("http addr:", c.Http.Addr)
 	}
 	if c.Http.Timeout != nil { //配置文件中配置了超时时间
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
+		fmt.Println("http timeout:", c.Http.Timeout.AsDuration())
 	}
 	httpSrv := http.NewServer(opts...) //创建一个http服务，将之前的opts配置信息传入
 

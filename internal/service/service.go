@@ -10,7 +10,7 @@ import (
 // ProviderSet is service providers.
 var ProviderSet = wire.NewSet(NewBlog)
 
-type Blog struct {
+type BlogService struct {
 	v1.UnimplementedBlogServer //结构体实现了所有 gRPC 方法，但每个方法都返回 Unimplemented 错误
 	log                        *log.Helper
 
@@ -22,8 +22,8 @@ type Blog struct {
 func NewBlog(
 	article *data.ArticleRepo,
 	tag *data.TagRepo,
-) *Blog {
-	return &Blog{
+) *BlogService {
+	return &BlogService{
 		article: article,
 		tag:     tag,
 	}
