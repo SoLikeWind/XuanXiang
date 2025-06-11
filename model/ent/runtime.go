@@ -29,7 +29,7 @@ func init() {
 	// article.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	article.UpdateDefaultUpdatedAt = articleDescUpdatedAt.UpdateDefault.(func() time.Time)
 	// articleDescTitle is the schema descriptor for title field.
-	articleDescTitle := articleFields[0].Descriptor()
+	articleDescTitle := articleFields[1].Descriptor()
 	// article.TitleValidator is a validator for the "title" field. It is called by the builders before save.
 	article.TitleValidator = func() func(string) error {
 		validators := articleDescTitle.Validators
@@ -47,7 +47,7 @@ func init() {
 		}
 	}()
 	// articleDescSummary is the schema descriptor for summary field.
-	articleDescSummary := articleFields[1].Descriptor()
+	articleDescSummary := articleFields[2].Descriptor()
 	// article.SummaryValidator is a validator for the "summary" field. It is called by the builders before save.
 	article.SummaryValidator = func() func(string) error {
 		validators := articleDescSummary.Validators
@@ -65,11 +65,11 @@ func init() {
 		}
 	}()
 	// articleDescImage is the schema descriptor for image field.
-	articleDescImage := articleFields[2].Descriptor()
+	articleDescImage := articleFields[3].Descriptor()
 	// article.ImageValidator is a validator for the "image" field. It is called by the builders before save.
 	article.ImageValidator = articleDescImage.Validators[0].(func(string) error)
 	// articleDescContentMd is the schema descriptor for content_md field.
-	articleDescContentMd := articleFields[3].Descriptor()
+	articleDescContentMd := articleFields[4].Descriptor()
 	// article.ContentMdValidator is a validator for the "content_md" field. It is called by the builders before save.
 	article.ContentMdValidator = func() func(string) error {
 		validators := articleDescContentMd.Validators
@@ -87,7 +87,7 @@ func init() {
 		}
 	}()
 	// articleDescContentHTML is the schema descriptor for content_html field.
-	articleDescContentHTML := articleFields[4].Descriptor()
+	articleDescContentHTML := articleFields[5].Descriptor()
 	// article.ContentHTMLValidator is a validator for the "content_html" field. It is called by the builders before save.
 	article.ContentHTMLValidator = func() func(string) error {
 		validators := articleDescContentHTML.Validators
@@ -105,7 +105,7 @@ func init() {
 		}
 	}()
 	// articleDescViews is the schema descriptor for views field.
-	articleDescViews := articleFields[5].Descriptor()
+	articleDescViews := articleFields[6].Descriptor()
 	// article.DefaultViews holds the default value on creation for the views field.
 	article.DefaultViews = articleDescViews.Default.(int64)
 	// article.ViewsValidator is a validator for the "views" field. It is called by the builders before save.

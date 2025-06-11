@@ -43,14 +43,14 @@ func (tu *TagUpdate) SetNillableName(s *string) *TagUpdate {
 }
 
 // AddArticleIDs adds the "articles" edge to the Article entity by IDs.
-func (tu *TagUpdate) AddArticleIDs(ids ...int) *TagUpdate {
+func (tu *TagUpdate) AddArticleIDs(ids ...int64) *TagUpdate {
 	tu.mutation.AddArticleIDs(ids...)
 	return tu
 }
 
 // AddArticles adds the "articles" edges to the Article entity.
 func (tu *TagUpdate) AddArticles(a ...*Article) *TagUpdate {
-	ids := make([]int, len(a))
+	ids := make([]int64, len(a))
 	for i := range a {
 		ids[i] = a[i].ID
 	}
@@ -69,14 +69,14 @@ func (tu *TagUpdate) ClearArticles() *TagUpdate {
 }
 
 // RemoveArticleIDs removes the "articles" edge to Article entities by IDs.
-func (tu *TagUpdate) RemoveArticleIDs(ids ...int) *TagUpdate {
+func (tu *TagUpdate) RemoveArticleIDs(ids ...int64) *TagUpdate {
 	tu.mutation.RemoveArticleIDs(ids...)
 	return tu
 }
 
 // RemoveArticles removes "articles" edges to Article entities.
 func (tu *TagUpdate) RemoveArticles(a ...*Article) *TagUpdate {
-	ids := make([]int, len(a))
+	ids := make([]int64, len(a))
 	for i := range a {
 		ids[i] = a[i].ID
 	}
@@ -130,7 +130,7 @@ func (tu *TagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: tag.ArticlesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -143,7 +143,7 @@ func (tu *TagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: tag.ArticlesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
 			},
 		}
 		for _, k := range nodes {
@@ -159,7 +159,7 @@ func (tu *TagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: tag.ArticlesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
 			},
 		}
 		for _, k := range nodes {
@@ -202,14 +202,14 @@ func (tuo *TagUpdateOne) SetNillableName(s *string) *TagUpdateOne {
 }
 
 // AddArticleIDs adds the "articles" edge to the Article entity by IDs.
-func (tuo *TagUpdateOne) AddArticleIDs(ids ...int) *TagUpdateOne {
+func (tuo *TagUpdateOne) AddArticleIDs(ids ...int64) *TagUpdateOne {
 	tuo.mutation.AddArticleIDs(ids...)
 	return tuo
 }
 
 // AddArticles adds the "articles" edges to the Article entity.
 func (tuo *TagUpdateOne) AddArticles(a ...*Article) *TagUpdateOne {
-	ids := make([]int, len(a))
+	ids := make([]int64, len(a))
 	for i := range a {
 		ids[i] = a[i].ID
 	}
@@ -228,14 +228,14 @@ func (tuo *TagUpdateOne) ClearArticles() *TagUpdateOne {
 }
 
 // RemoveArticleIDs removes the "articles" edge to Article entities by IDs.
-func (tuo *TagUpdateOne) RemoveArticleIDs(ids ...int) *TagUpdateOne {
+func (tuo *TagUpdateOne) RemoveArticleIDs(ids ...int64) *TagUpdateOne {
 	tuo.mutation.RemoveArticleIDs(ids...)
 	return tuo
 }
 
 // RemoveArticles removes "articles" edges to Article entities.
 func (tuo *TagUpdateOne) RemoveArticles(a ...*Article) *TagUpdateOne {
-	ids := make([]int, len(a))
+	ids := make([]int64, len(a))
 	for i := range a {
 		ids[i] = a[i].ID
 	}
@@ -319,7 +319,7 @@ func (tuo *TagUpdateOne) sqlSave(ctx context.Context) (_node *Tag, err error) {
 			Columns: tag.ArticlesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -332,7 +332,7 @@ func (tuo *TagUpdateOne) sqlSave(ctx context.Context) (_node *Tag, err error) {
 			Columns: tag.ArticlesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
 			},
 		}
 		for _, k := range nodes {
@@ -348,7 +348,7 @@ func (tuo *TagUpdateOne) sqlSave(ctx context.Context) (_node *Tag, err error) {
 			Columns: tag.ArticlesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
 			},
 		}
 		for _, k := range nodes {

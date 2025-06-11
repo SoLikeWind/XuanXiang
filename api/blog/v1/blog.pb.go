@@ -8,6 +8,7 @@ package v1
 
 import (
 	model "github.com/SoLikeWind/XuanXiang/api/common/model"
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -130,7 +131,7 @@ func (x *ListArticleReply) GetArticles() []*model.Article {
 
 type GetArticleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -165,11 +166,11 @@ func (*GetArticleReq) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetArticleReq) GetId() string {
+func (x *GetArticleReq) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 type GetArticleReply struct {
@@ -330,7 +331,7 @@ func (x *CreateArticleReply) GetArticle() *model.Article {
 
 type UpdateArticleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Title         *string                `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty"`
 	Summary       *string                `protobuf:"bytes,3,opt,name=summary,proto3,oneof" json:"summary,omitempty"`
 	Image         *string                `protobuf:"bytes,4,opt,name=image,proto3,oneof" json:"image,omitempty"`
@@ -369,11 +370,11 @@ func (*UpdateArticleReq) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateArticleReq) GetId() string {
+func (x *UpdateArticleReq) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 func (x *UpdateArticleReq) GetTitle() string {
@@ -450,7 +451,7 @@ func (x *UpdateArticleReply) GetArticle() *model.Article {
 
 type DeleteArticleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -485,11 +486,11 @@ func (*DeleteArticleReq) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *DeleteArticleReq) GetId() string {
+func (x *DeleteArticleReq) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 type ListTagReq struct {
@@ -872,15 +873,15 @@ var File_blog_v1_blog_proto protoreflect.FileDescriptor
 
 const file_blog_v1_blog_proto_rawDesc = "" +
 	"\n" +
-	"\x12blog/v1/blog.proto\x12\ablog.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1dcommon/model/blog_field.proto\"S\n" +
+	"\x12blog/v1/blog.proto\x12\ablog.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x17validate/validate.proto\x1a\x1dcommon/model/blog_field.proto\"S\n" +
 	"\x0eListArticleReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x10\n" +
 	"\x03tag\x18\x03 \x01(\tR\x03tag\"E\n" +
 	"\x10ListArticleReply\x121\n" +
-	"\barticles\x18\x01 \x03(\v2\x15.common.model.ArticleR\barticles\"\x1f\n" +
-	"\rGetArticleReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"B\n" +
+	"\barticles\x18\x01 \x03(\v2\x15.common.model.ArticleR\barticles\"(\n" +
+	"\rGetArticleReq\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"B\n" +
 	"\x0fGetArticleReply\x12/\n" +
 	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\x86\x01\n" +
 	"\x10CreateArticleReq\x12\x14\n" +
@@ -891,23 +892,24 @@ const file_blog_v1_blog_proto_rawDesc = "" +
 	"content_md\x18\x04 \x01(\tR\tcontentMdB\b\n" +
 	"\x06_image\"E\n" +
 	"\x12CreateArticleReply\x12/\n" +
-	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\xca\x01\n" +
-	"\x10UpdateArticleReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
-	"\x05title\x18\x02 \x01(\tH\x00R\x05title\x88\x01\x01\x12\x1d\n" +
-	"\asummary\x18\x03 \x01(\tH\x01R\asummary\x88\x01\x01\x12\x19\n" +
-	"\x05image\x18\x04 \x01(\tH\x02R\x05image\x88\x01\x01\x12\"\n" +
+	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\x82\x02\n" +
+	"\x10UpdateArticleReq\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\x12$\n" +
+	"\x05title\x18\x02 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18xH\x00R\x05title\x88\x01\x01\x12)\n" +
+	"\asummary\x18\x03 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\xf0\x01H\x01R\asummary\x88\x01\x01\x12$\n" +
+	"\x05image\x18\x04 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18xH\x02R\x05image\x88\x01\x01\x12/\n" +
 	"\n" +
-	"content_md\x18\x05 \x01(\tH\x03R\tcontentMd\x88\x01\x01B\b\n" +
+	"content_md\x18\x05 \x01(\tB\v\xfaB\br\x06\x10\x01\x18\xa0\x8d\x06H\x03R\tcontentMd\x88\x01\x01B\b\n" +
 	"\x06_titleB\n" +
 	"\n" +
 	"\b_summaryB\b\n" +
 	"\x06_imageB\r\n" +
 	"\v_content_md\"E\n" +
 	"\x12UpdateArticleReply\x12/\n" +
-	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\"\n" +
-	"\x10DeleteArticleReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"=\n" +
+	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"+\n" +
+	"\x10DeleteArticleReq\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"=\n" +
 	"\n" +
 	"ListTagReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +

@@ -7,6 +7,6 @@ import (
 )
 
 // TagService is the server API for Tag service.
-func (s *Blog) GetTag(ctx context.Context, req *v1.GetTagReq) (*v1.GetTagReply, error) {
+func (s *BlogService) GetTag(ctx context.Context, req *v1.GetTagReq) (*v1.GetTagReply, error) {
 	return &v1.GetTagReply{}, nil
 }

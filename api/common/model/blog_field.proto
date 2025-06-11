@@ -3,11 +3,12 @@ syntax = "proto3";
 package common.model;
 
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/SoLikeWind/XuanXiang/api/common/model;model";
 
 message Article {
-    string id = 1;
+    int64 id = 1[(validate.rules).int64 = {gt: 0}];
     string title = 2;
     string summary = 3;
     string image = 4;
@@ -15,6 +16,7 @@ message Article {
     string content_html = 6;
     int64 views = 7;
     google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
 }
 
 message Tag {

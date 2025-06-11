@@ -80,6 +80,7 @@ func main() {
 	logger := zerolog_kratos.NewLogger(&Zerologger)
 	logger = log.With(logger, //with：日志伴随的其他信息	//kratos的logger可以接受任意类型的logger
 		"ts", log.DefaultTimestamp, //添加时间戳
+		"caller", log.DefaultCaller, //添加调用者信息
 		"service.id", id, //添加服务ID
 		"service.name", Name, //添加服务名称
 		"service.version", Version, //添加服务版本

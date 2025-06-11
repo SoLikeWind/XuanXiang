@@ -29,9 +29,9 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	}
 	articleRepo := data.NewArticleRepo(dataData, logger)
 	tagRepo := data.NewTagRepo(dataData, logger)
-	blog := service.NewBlog(articleRepo, tagRepo)
-	grpcServer := server.NewGRPCServer(confServer, blog, logger)
-	httpServer := server.NewHTTPServer(confServer, blog, logger)
+	blogService := service.NewBlogService(articleRepo, tagRepo, logger)
+	grpcServer := server.NewGRPCServer(confServer, blogService, logger)
+	httpServer := server.NewHTTPServer(confServer, logger, blogService)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

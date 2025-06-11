@@ -20,7 +20,7 @@ func (Article) Mixin() []ent.Mixin {
 // Fields of the Article.
 func (Article) Fields() []ent.Field {
 	return []ent.Field{
-		// field.Int("id"),
+		field.Int64("id"),
 		field.String("title").
 			MinLen(0).
 			MaxLen(255),

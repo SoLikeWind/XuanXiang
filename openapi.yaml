@@ -284,6 +284,9 @@ components:
                 createdAt:
                     type: string
                     format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
         common.model.Tag:
             type: object
             properties:

@@ -34,7 +34,7 @@ type ArticleMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int
+	id            *int64
 	created_at    *time.Time
 	updated_at    *time.Time
 	title         *string
@@ -73,7 +73,7 @@ func newArticleMutation(c config, op Op, opts ...articleOption) *ArticleMutation
 }
 
 // withArticleID sets the ID field of the mutation.
-func withArticleID(id int) articleOption {
+func withArticleID(id int64) articleOption {
 	return func(m *ArticleMutation) {
 		var (
 			err   error
@@ -123,9 +123,15 @@ func (m ArticleMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Article entities.
+func (m *ArticleMutation) SetID(id int64) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *ArticleMutation) ID() (id int, exists bool) {
+func (m *ArticleMutation) ID() (id int64, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -136,12 +142,12 @@ func (m *ArticleMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *ArticleMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *ArticleMutation) IDs(ctx context.Context) ([]int64, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []int64{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -892,8 +898,8 @@ type TagMutation struct {
 	id              *int
 	name            *string
 	clearedFields   map[string]struct{}
-	articles        map[int]struct{}
-	removedarticles map[int]struct{}
+	articles        map[int64]struct{}
+	removedarticles map[int64]struct{}
 	clearedarticles bool
 	done            bool
 	oldValue        func(context.Context) (*Tag, error)
@@ -1035,9 +1041,9 @@ func (m *TagMutation) ResetName() {
 }
 
 // AddArticleIDs adds the "articles" edge to the Article entity by ids.
-func (m *TagMutation) AddArticleIDs(ids ...int) {
+func (m *TagMutation) AddArticleIDs(ids ...int64) {
 	if m.articles == nil {
-		m.articles = make(map[int]struct{})
+		m.articles = make(map[int64]struct{})
 	}
 	for i := range ids {
 		m.articles[ids[i]] = struct{}{}
@@ -1055,9 +1061,9 @@ func (m *TagMutation) ArticlesCleared() bool {
 }
 
 // RemoveArticleIDs removes the "articles" edge to the Article entity by IDs.
-func (m *TagMutation) RemoveArticleIDs(ids ...int) {
+func (m *TagMutation) RemoveArticleIDs(ids ...int64) {
 	if m.removedarticles == nil {
-		m.removedarticles = make(map[int]struct{})
+		m.removedarticles = make(map[int64]struct{})
 	}
 	for i := range ids {
 		delete(m.articles, ids[i])
@@ -1066,7 +1072,7 @@ func (m *TagMutation) RemoveArticleIDs(ids ...int) {
 }
 
 // RemovedArticles returns the removed IDs of the "articles" edge to the Article entity.
-func (m *TagMutation) RemovedArticlesIDs() (ids []int) {
+func (m *TagMutation) RemovedArticlesIDs() (ids []int64) {
 	for id := range m.removedarticles {
 		ids = append(ids, id)
 	}
@@ -1074,7 +1080,7 @@ func (m *TagMutation) RemovedArticlesIDs() (ids []int) {
 }
 
 // ArticlesIDs returns the "articles" edge IDs in the mutation.
-func (m *TagMutation) ArticlesIDs() (ids []int) {
+func (m *TagMutation) ArticlesIDs() (ids []int64) {
 	for id := range m.articles {
 		ids = append(ids, id)
 	}

@@ -101,6 +101,12 @@ func (ac *ArticleCreate) SetNillableViews(i *int64) *ArticleCreate {
 	return ac
 }
 
+// SetID sets the "id" field.
+func (ac *ArticleCreate) SetID(i int64) *ArticleCreate {
+	ac.mutation.SetID(i)
+	return ac
+}
+
 // AddTagIDs adds the "tags" edge to the Tag entity by IDs.
 func (ac *ArticleCreate) AddTagIDs(ids ...int) *ArticleCreate {
 	ac.mutation.AddTagIDs(ids...)
@@ -232,8 +238,10 @@ func (ac *ArticleCreate) sqlSave(ctx context.Context) (*Article, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = int64(id)
+	}
 	ac.mutation.id = &_node.ID
 	ac.mutation.done = true
 	return _node, nil
@@ -242,8 +250,12 @@ func (ac *ArticleCreate) sqlSave(ctx context.Context) (*Article, error) {
 func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Article{config: ac.config}
-		_spec = sqlgraph.NewCreateSpec(article.Table, sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(article.Table, sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64))
 	)
+	if id, ok := ac.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := ac.mutation.CreatedAt(); ok {
 		_spec.SetField(article.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
@@ -340,9 +352,9 @@ func (acb *ArticleCreateBulk) Save(ctx context.Context) ([]*Article, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

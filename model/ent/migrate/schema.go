@@ -10,7 +10,7 @@ import (
 var (
 	// ArticlesColumns holds the columns for the "articles" table.
 	ArticlesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "title", Type: field.TypeString, Size: 255},
@@ -39,7 +39,7 @@ var (
 	}
 	// ArticleTagsColumns holds the columns for the "article_tags" table.
 	ArticleTagsColumns = []*schema.Column{
-		{Name: "article_id", Type: field.TypeInt},
+		{Name: "article_id", Type: field.TypeInt64},
 		{Name: "tag_id", Type: field.TypeInt},
 	}
 	// ArticleTagsTable holds the schema information for the "article_tags" table.

@@ -2,10 +2,10 @@ package data
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
 	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"github.com/SoLikeWind/XuanXiang/internal/conf"
 	"github.com/SoLikeWind/XuanXiang/model/ent"
 	"go.opentelemetry.io/otel"

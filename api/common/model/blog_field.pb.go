@@ -7,6 +7,7 @@
 package model
 
 import (
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -24,7 +25,7 @@ const (
 
 type Article struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
 	Image         string                 `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
@@ -32,6 +33,7 @@ type Article struct {
 	ContentHtml   string                 `protobuf:"bytes,6,opt,name=content_html,json=contentHtml,proto3" json:"content_html,omitempty"`
 	Views         int64                  `protobuf:"varint,7,opt,name=views,proto3" json:"views,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,11 +68,11 @@ func (*Article) Descriptor() ([]byte, []int) {
 	return file_common_model_blog_field_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Article) GetId() string {
+func (x *Article) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 func (x *Article) GetTitle() string {
@@ -118,6 +120,13 @@ func (x *Article) GetViews() int64 {
 func (x *Article) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Article) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
 	}
 	return nil
 }
@@ -178,9 +187,9 @@ var File_common_model_blog_field_proto protoreflect.FileDescriptor
 
 const file_common_model_blog_field_proto_rawDesc = "" +
 	"\n" +
-	"\x1dcommon/model/blog_field.proto\x12\fcommon.model\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf2\x01\n" +
-	"\aArticle\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
+	"\x1dcommon/model/blog_field.proto\x12\fcommon.model\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xb6\x02\n" +
+	"\aArticle\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x14\n" +
 	"\x05image\x18\x04 \x01(\tR\x05image\x12\x1d\n" +
@@ -189,7 +198,9 @@ const file_common_model_blog_field_proto_rawDesc = "" +
 	"\fcontent_html\x18\x06 \x01(\tR\vcontentHtml\x12\x14\n" +
 	"\x05views\x18\a \x01(\x03R\x05views\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\")\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\")\n" +
 	"\x03Tag\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04nameB8Z6github.com/SoLikeWind/XuanXiang/api/common/model;modelb\x06proto3"
@@ -214,11 +225,12 @@ var file_common_model_blog_field_proto_goTypes = []any{
 }
 var file_common_model_blog_field_proto_depIdxs = []int32{
 	2, // 0: common.model.Article.created_at:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: common.model.Article.updated_at:type_name -> google.protobuf.Timestamp
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_common_model_blog_field_proto_init() }
