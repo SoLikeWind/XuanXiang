@@ -73,25 +73,25 @@ func (ar *ArticleRepo) Create(ctx context.Context, article *ent.Article) (*ent.A
 }
 
 // GetArticle 获取文章
-func (ar *ArticleRepo) GetArticle(ctx context.Context, id int64) (*ent.Article, error) {
+func (ar *ArticleRepo) Get(ctx context.Context, id int64) (*ent.Article, error) {
 	ar.log.WithContext(ctx).Info("GetArticle: %v", id)
 	return ar.data.db.Article.Get(ctx, id)
 }
 
 // UpdateArticle 更新文章
-func (ar *ArticleRepo) UpdateArticle(ctx context.Context, article *ent.Article) (*ent.Article, error) {
+func (ar *ArticleRepo) Update(ctx context.Context, article *ent.Article) (*ent.Article, error) {
 	ar.log.WithContext(ctx).Info("UpdateArticle: %v", article)
 	return ar.data.db.Article.UpdateOne(article).Save(ctx)
 }
 
 // DeleteArticle 删除文章
-func (ar *ArticleRepo) DeleteArticle(ctx context.Context, id int64) error {
+func (ar *ArticleRepo) Delete(ctx context.Context, id int64) error {
 	ar.log.WithContext(ctx).Info("DeleteArticle: %v", id)
 	return ar.data.db.Article.DeleteOneID(id).Exec(ctx)
 }
 
 // CountArticles 计算文章数量
-func (ar *ArticleRepo) CountArticles(ctx context.Context) (int, error) {
+func (ar *ArticleRepo) Count(ctx context.Context) (int, error) {
 	ar.log.WithContext(ctx).Info("CountArticles")
 	return ar.data.db.Article.Query().Count(ctx)
 }

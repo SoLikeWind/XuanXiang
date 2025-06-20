@@ -30,13 +30,13 @@ type Data struct {
 
 // NewData .
 func NewData(conf *conf.Data, logger log.Logger) (*Data, func(), error) {
-	log := log.NewHelper(log.With(logger, "module", "data"))
-	drv, err := sql.Open(
+	log := log.NewHelper(log.With(logger, "module", "data")) //增加一个日志记录器
+	drv, err := sql.Open(                                    //sql.Open()函数用于打开数据库连接，返回一个*sql.DB实例
 		conf.Database.Driver,
 		conf.Database.Source,
 	)
-	sqlDrv := dialect.DebugWithContext(drv, func(ctx context.Context, i ...interface{}) {
-		log.WithContext(ctx).Info(i...)
+	sqlDrv := dialect.DebugWithContext(drv, func(ctx context.Context, i ...interface{}) { //dialect.DebugWithContext()函数用于设置数据库连接的调试模式，
+		log.WithContext(ctx).Debug(i...) //并使用log.WithContext()函数将日志记录器添加到上下文中
 		tracer := otel.Tracer("ent.")
 		kind := trace.SpanKindServer
 		_, span := tracer.Start(ctx,

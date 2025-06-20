@@ -46,7 +46,7 @@ api:
  	       --go-http_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
 	       --openapi_out=fq_schema_naming=true,default_response=false:. \
-		   --validate_out=source_relative,lang=go:. \
+		   --validate_out=paths=source_relative,lang=go:./api \
 	       $(API_PROTO_FILES)
 
 .PHONY: errors
