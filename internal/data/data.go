@@ -35,7 +35,7 @@ func NewData(conf *conf.Data, logger log.Logger) (*Data, func(), error) {
 		conf.Database.Driver,
 		conf.Database.Source,
 	)
-	sqlDrv := dialect.DebugWithContext(drv, func(ctx context.Context, i ...interface{}) { //dialect.DebugWithContext()函数用于设置数据库连接的调试模式，
+	sqlDrv := dialect.DebugWithContext(drv, func(ctx context.Context, i ...interface{}) { //dialect.DebugWithContext()函数用于设置数据库连接的调试模式，注意导入的包
 		log.WithContext(ctx).Debug(i...) //并使用log.WithContext()函数将日志记录器添加到上下文中
 		tracer := otel.Tracer("ent.")
 		kind := trace.SpanKindServer
