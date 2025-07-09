@@ -33,3 +33,22 @@ func EntArticlesToAPI(articles []*ent.Article) []*model.Article {
 	}
 	return result
 }
+
+func EntTagToAPI(tag *ent.Tag) *model.Tag {
+	if tag == nil {
+		return nil
+	}
+
+	return &model.Tag{
+		Id:   tag.ID,
+		Name: tag.Name,
+	}
+}
+
+func EntTagsToAPI(tags []*ent.Tag) []*model.Tag {
+	result := make([]*model.Tag, 0, len(tags))
+	for _, tag := range tags {
+		result = append(result, EntTagToAPI(tag))
+	}
+	return result
+}

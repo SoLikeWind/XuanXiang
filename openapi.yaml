@@ -114,6 +114,10 @@ paths:
                   in: query
                   schema:
                     type: string
+                - name: name
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -231,6 +235,8 @@ components:
         blog.v1.ListArticleReply:
             type: object
             properties:
+                total:
+                    type: string
                 articles:
                     type: array
                     items:
@@ -281,6 +287,10 @@ components:
                     type: string
                 views:
                     type: string
+                tags:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/common.model.Tag'
                 createdAt:
                     type: string
                     format: date-time

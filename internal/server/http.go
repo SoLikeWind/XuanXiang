@@ -29,8 +29,8 @@ func NewHTTPServer(c *conf.Server,
 			logging.Server(logger), //在每次 Http 请求后调用服务,打印对应crud服务的 相关信息
 			validate.ProtoValidate(),
 		),
-		http.Filter(
-			handlers.CORS(
+		http.Filter( //过滤器
+			handlers.CORS( //设置允许的跨域请求方法
 				handlers.AllowedOrigins([]string{"*"}),
 				handlers.AllowedHeaders([]string{
 					"Accept", "Accept-Language", "Content-Language", "Origin",

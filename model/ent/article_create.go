@@ -108,14 +108,14 @@ func (ac *ArticleCreate) SetID(i int64) *ArticleCreate {
 }
 
 // AddTagIDs adds the "tags" edge to the Tag entity by IDs.
-func (ac *ArticleCreate) AddTagIDs(ids ...int) *ArticleCreate {
+func (ac *ArticleCreate) AddTagIDs(ids ...int64) *ArticleCreate {
 	ac.mutation.AddTagIDs(ids...)
 	return ac
 }
 
 // AddTags adds the "tags" edges to the Tag entity.
 func (ac *ArticleCreate) AddTags(t ...*Tag) *ArticleCreate {
-	ids := make([]int, len(t))
+	ids := make([]int64, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
@@ -296,7 +296,7 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 			Columns: article.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt64),
 			},
 		}
 		for _, k := range nodes {

@@ -87,7 +87,8 @@ func (x *ListArticleReq) GetTag() string {
 
 type ListArticleReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Articles      []*model.Article       `protobuf:"bytes,1,rep,name=articles,proto3" json:"articles,omitempty"`
+	Total         int64                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Articles      []*model.Article       `protobuf:"bytes,2,rep,name=articles,proto3" json:"articles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -120,6 +121,13 @@ func (x *ListArticleReply) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListArticleReply.ProtoReflect.Descriptor instead.
 func (*ListArticleReply) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ListArticleReply) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
 }
 
 func (x *ListArticleReply) GetArticles() []*model.Article {
@@ -497,6 +505,7 @@ type ListTagReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -543,6 +552,13 @@ func (x *ListTagReq) GetPageSize() int64 {
 		return x.PageSize
 	}
 	return 0
+}
+
+func (x *ListTagReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
 }
 
 type ListTagReply struct {
@@ -877,9 +893,10 @@ const file_blog_v1_blog_proto_rawDesc = "" +
 	"\x0eListArticleReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x10\n" +
-	"\x03tag\x18\x03 \x01(\tR\x03tag\"E\n" +
-	"\x10ListArticleReply\x121\n" +
-	"\barticles\x18\x01 \x03(\v2\x15.common.model.ArticleR\barticles\"(\n" +
+	"\x03tag\x18\x03 \x01(\tR\x03tag\"[\n" +
+	"\x10ListArticleReply\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x03R\x05total\x121\n" +
+	"\barticles\x18\x02 \x03(\v2\x15.common.model.ArticleR\barticles\"(\n" +
 	"\rGetArticleReq\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"B\n" +
 	"\x0fGetArticleReply\x12/\n" +
@@ -909,11 +926,12 @@ const file_blog_v1_blog_proto_rawDesc = "" +
 	"\x12UpdateArticleReply\x12/\n" +
 	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"+\n" +
 	"\x10DeleteArticleReq\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"=\n" +
+	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"Q\n" +
 	"\n" +
 	"ListTagReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\"K\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"K\n" +
 	"\fListTagReply\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12%\n" +
 	"\x04tags\x18\x02 \x03(\v2\x11.common.model.TagR\x04tags\"\x1b\n" +

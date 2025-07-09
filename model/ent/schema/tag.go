@@ -11,10 +11,19 @@ type Tag struct {
 	ent.Schema
 }
 
+func (Tag) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		Mixin{},
+	}
+}
+
 // Fields of the Tag.
 func (Tag) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name"),
+		field.Int64("id").
+			Unique(),
+		field.String("name").
+			Comment("标签名称"),
 	}
 }
 

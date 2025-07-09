@@ -163,6 +163,8 @@ func (m *ListArticleReply) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Total
+
 	for idx, item := range m.GetArticles() {
 		_, _ = idx, item
 
@@ -1194,6 +1196,8 @@ func (m *ListTagReq) validate(all bool) error {
 	// no validation rules for Page
 
 	// no validation rules for PageSize
+
+	// no validation rules for Name
 
 	if len(errors) > 0 {
 		return ListTagReqMultiError(errors)

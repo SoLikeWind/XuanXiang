@@ -75,7 +75,8 @@ message ListArticleReq {
 }
 
 message ListArticleReply {
-	repeated common.model.Article articles = 1;
+	int64 total = 1;
+	repeated common.model.Article articles = 2;
 }
 
 message GetArticleReq {
@@ -113,9 +114,10 @@ message DeleteArticleReq {
 	int64 id = 1[(validate.rules).int64 = {gt: 0}];
 }
 
-message  ListTagReq {
+message ListTagReq {
 	int64 page = 1;
 	int64 page_size = 2;
+	string name = 3;
 }
 
 message ListTagReply {

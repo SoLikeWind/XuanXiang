@@ -25,6 +25,7 @@ type ArticleQuery struct {
 	inters     []Interceptor
 	predicates []predicate.Article
 	withTags   *TagQuery
+	withFKs    bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -370,11 +371,15 @@ func (aq *ArticleQuery) prepareQuery(ctx context.Context) error {
 func (aq *ArticleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Article, error) {
 	var (
 		nodes       = []*Article{}
+		withFKs     = aq.withFKs
 		_spec       = aq.querySpec()
 		loadedTypes = [1]bool{
 			aq.withTags != nil,
 		}
 	)
+	if withFKs {
+		_spec.Node.Columns = append(_spec.Node.Columns, article.ForeignKeys...)
+	}
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Article).scanValues(nil, columns)
 	}
@@ -406,7 +411,7 @@ func (aq *ArticleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Arti
 func (aq *ArticleQuery) loadTags(ctx context.Context, query *TagQuery, nodes []*Article, init func(*Article), assign func(*Article, *Tag)) error {
 	edgeIDs := make([]driver.Value, len(nodes))
 	byID := make(map[int64]*Article)
-	nids := make(map[int]map[*Article]struct{})
+	nids := make(map[int64]map[*Article]struct{})
 	for i, node := range nodes {
 		edgeIDs[i] = node.ID
 		byID[node.ID] = node
@@ -439,7 +444,7 @@ func (aq *ArticleQuery) loadTags(ctx context.Context, query *TagQuery, nodes []*
 			}
 			spec.Assign = func(columns []string, values []any) error {
 				outValue := values[0].(*sql.NullInt64).Int64
-				inValue := int(values[1].(*sql.NullInt64).Int64)
+				inValue := values[1].(*sql.NullInt64).Int64
 				if nids[inValue] == nil {
 					nids[inValue] = map[*Article]struct{}{byID[outValue]: {}}
 					return assign(columns[1:], values[1:])

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package common.model.iam;
+
+option go_package = "github.com/SoLikeWind/XuanXiang/api/common/model/iam;iam";
+
+message User {
+    int64 id = 1;
+    string account = 2;
+    string name = 3;
+    string icon = 4;
+    string email = 5; // 可选
+    string sign = 6;  // 可选
+    // repeated Article articles = 8; // 关联的文章
+    // repeated Tag tags = 9;
+}

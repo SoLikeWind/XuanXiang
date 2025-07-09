@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/SoLikeWind/XuanXiang/model/ent"
+	"github.com/SoLikeWind/XuanXiang/model/ent/article"
+	"github.com/SoLikeWind/XuanXiang/model/ent/tag"
 	"github.com/go-kratos/kratos/v2/log"
 )
 
@@ -21,35 +23,44 @@ func NewArticleRepo(data *Data, logger log.Logger) *ArticleRepo {
 }
 
 // ListArticles 列出文章
-// func (ar *ArticleRepo) ListArticles(ctx context.Context, page, pageSize int64, tag string) ([]*ent.Article, error) {
-// 	query := ar.data.db.Article.Query()
+func (ar *ArticleRepo) List(ctx context.Context, page, pageSize int64, tagName string) ([]*ent.Article, int64, error) {
+	query := ar.data.db.Article.Query()
 
-// 	if tag != "" {
-// 		query = query.Where(article.HasTagsWith(tag.NameEQ(tag)))
-// 	}
+	if tagName != "" {
+		query = query.Where(article.HasTagsWith(tag.NameEQ(tagName)))
+	}
 
-// 	if pageSize <= 0 {
-// 		pageSize = 10
-// 	}
-// 	if page <= 0 {
-// 		page = 1
-// 	}
+	// 预加载标签信息
+	query = query.WithTags()
 
-// 	offset := (page - 1) * pageSize
+	if pageSize <= 0 { //页大小
+		pageSize = 10
+	}
+	if page <= 0 { //页码
+		page = 1
+	}
 
-// 	articles, err := query.
-// 		Limit(int(pageSize)).
-// 		Offset(int(offset)).
-// 		Order(ent.Desc(article.FieldCreatedAt)).
-// 		All(ctx)
+	offset := (page - 1) * pageSize //偏移量
 
-// 	if err != nil {
-// 		ar.log.Errorf("failed listing articles: %s", err)
-// 		return nil, err
-// 	}
+	total, err := query.Clone().Count(ctx)
+	if err != nil {
+		ar.log.Errorf("failed counting articles: %s", err)
+		return nil, 0, err
+	}
 
-// 	return articles, nil
-// }
+	articles, err := query.
+		Limit(int(pageSize)).                    //限制查询数量
+		Offset(int(offset)).                     //偏移量
+		Order(ent.Desc(article.FieldCreatedAt)). //按创建时间降序排序
+		All(ctx)
+
+	if err != nil {
+		ar.log.Errorf("failed listing articles: %s", err)
+		return nil, 0, err
+	}
+
+	return articles, int64(total), nil
+}
 
 // CreateArticle 创建文章
 func (ar *ArticleRepo) Create(ctx context.Context, article *ent.Article) (*ent.Article, error) {
@@ -74,8 +85,14 @@ func (ar *ArticleRepo) Create(ctx context.Context, article *ent.Article) (*ent.A
 
 // GetArticle 获取文章
 func (ar *ArticleRepo) Get(ctx context.Context, id int64) (*ent.Article, error) {
-	ar.log.WithContext(ctx).Info("GetArticle: %v", id)
-	return ar.data.db.Article.Get(ctx, id)
+	data, err := ar.data.db.Article.Query().Where(article.IDEQ(id)).Only(ctx)
+	if err != nil {
+		if !ent.IsNotFound(err) {
+			ar.log.Errorf("failed getting article: %s", err)
+			return nil, err
+		}
+	}
+	return data, nil
 }
 
 // UpdateArticle 更新文章

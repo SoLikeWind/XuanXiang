@@ -15,11 +15,24 @@ message Article {
     string content_md = 5;
     string content_html = 6;
     int64 views = 7;
-    google.protobuf.Timestamp created_at = 8;
-    google.protobuf.Timestamp updated_at = 9;
+    repeated Tag tags = 8;
+    google.protobuf.Timestamp created_at = 9;
+    google.protobuf.Timestamp updated_at = 10;
 }
 
 message Tag {
-    string id = 1;
+    int64 id = 1;
     string name = 2;
+}
+
+message User {
+    int64 id = 1;
+    string account = 2;
+    string password = 3;
+    string name = 4;
+    string icon = 5;
+    string email = 6; // 可选
+    string sign = 7;  // 可选
+    repeated Article articles = 8; // 关联的文章
+    repeated Tag tags = 9;
 }
