@@ -212,6 +212,10 @@ components:
                     type: string
                 contentMd:
                     type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
         blog.v1.CreateTagReply:
             type: object
             properties:

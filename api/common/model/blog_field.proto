@@ -7,7 +7,9 @@ import "validate/validate.proto";
 
 option go_package = "github.com/SoLikeWind/XuanXiang/api/common/model;model";
 
+// 文章
 message Article {
+    // 
     int64 id = 1[(validate.rules).int64 = {gt: 0}];
     string title = 2;
     string summary = 3;

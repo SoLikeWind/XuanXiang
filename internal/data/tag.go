@@ -32,12 +32,12 @@ func (t *TagRepo) List(ctx context.Context, page, pageSize int64, name string) (
 
 	total, err := query.Clone().Count(ctx) //统计总数
 	if err != nil {
-		return nil, 0, errors.ERROT_COUNT_TAG
+		return nil, 0, errors.ERROR_COUNT_TAG
 	}
 
 	tags, err := query.All(ctx)
 	if err != nil {
-		return nil, 0, errors.ERROT_LIST_TAG
+		return nil, 0, errors.ERROR_LIST_TAG
 	}
 
 	return tags, int64(total), nil
@@ -46,7 +46,7 @@ func (t *TagRepo) List(ctx context.Context, page, pageSize int64, name string) (
 func (t *TagRepo) Create(ctx context.Context, tag *ent.Tag) (*ent.Tag, error) {
 	tag, err := t.data.db.Tag.Create().SetName(tag.Name).Save(ctx)
 	if err != nil {
-		return nil, errors.ERROT_CREATE_TAG
+		return nil, errors.ERROR_CREATE_TAG
 	}
 	return tag, nil
 }

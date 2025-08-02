@@ -14,7 +14,7 @@ import (
 func (s *BlogService) ListArticle(ctx context.Context, req *v1.ListArticleReq) (*v1.ListArticleReply, error) {
 	articles, total, err := s.article.List(ctx, req.Page, req.PageSize, req.Tag)
 	if err != nil {
-		return nil, errors.ERROT_LIST_ARTICLE
+		return nil, errors.ERROR_LIST_ARTICLE
 	}
 	return &v1.ListArticleReply{
 		Total:    total,
@@ -31,9 +31,9 @@ func (s *BlogService) CreateArticle(ctx context.Context, req *v1.CreateArticleRe
 		ContentHTML: convert.MdToHtml(req.ContentMd), // TODO: md to html
 		Views:       0,
 		// CreatedAt:   timestamppb.Now(),
-	})
-	if err != nil {
-		return nil, errors.ERROT_CREATE_ARTICLE
+	}, req.Tags)
+	if err != nil { //如果创建失败
+		return nil, errors.ERROR_CREATE_ARTICLE //返回自定义的服务内部错误，之后不再注释
 	}
 	return &v1.CreateArticleReply{ //返回创建的文章为api的reply
 		Article: convert.EntArticleToAPI(article),
@@ -51,7 +51,7 @@ func (s *BlogService) GetArticle(ctx context.Context, req *v1.GetArticleReq) (*v
 
 	article, err := s.article.Get(ctx, req.Id)
 	if err != nil {
-		return nil, errors.ERROT_GET_ARTICLE
+		return nil, errors.ERROR_GET_ARTICLE
 	}
 	return &v1.GetArticleReply{
 		Article: convert.EntArticleToAPI(article), //将ent.Article转换为api.Article
@@ -59,9 +59,9 @@ func (s *BlogService) GetArticle(ctx context.Context, req *v1.GetArticleReq) (*v
 }
 
 func (s *BlogService) UpdateArticle(ctx context.Context, req *v1.UpdateArticleReq) (*emptypb.Empty, error) {
-	article, err := s.article.Get(ctx, req.Id)
+	article, err := s.article.Get(ctx, req.Id) //获取文章
 	if err != nil {
-		return nil, errors.ERROT_GET_ARTICLE
+		return nil, errors.ERROR_GET_ARTICLE
 	}
 
 	if req.Title != nil {
@@ -80,7 +80,7 @@ func (s *BlogService) UpdateArticle(ctx context.Context, req *v1.UpdateArticleRe
 
 	_, err = s.article.Update(ctx, article)
 	if err != nil {
-		return nil, errors.ERROT_UPDATE_ARTICLE
+		return nil, errors.ERROR_UPDATE_ARTICLE
 	}
 	return &emptypb.Empty{}, nil
 }
@@ -88,7 +88,7 @@ func (s *BlogService) UpdateArticle(ctx context.Context, req *v1.UpdateArticleRe
 func (s *BlogService) DeleteArticle(ctx context.Context, req *v1.DeleteArticleReq) (*emptypb.Empty, error) {
 	err := s.article.Delete(ctx, req.Id)
 	if err != nil {
-		return nil, errors.ERROT_DELETE_ARTICLE
+		return nil, errors.ERROR_DELETE_ARTICLE
 	}
-	return &emptypb.Empty{}, nil
+	return &emptypb.Empty{}, nil //返回空结构体，proto提供
 }
