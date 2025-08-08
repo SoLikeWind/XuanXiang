@@ -5,7 +5,7 @@ package blog.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "validate/validate.proto";
-import "common/model/blog_field.proto";//github.com/SoLikeWind/XuanXiang/api/
+import "common/model/blog_model.proto";
 
 option go_package = "github.com/SoLikeWind/XuanXiang/api/blog/v1;v1";
 
@@ -67,55 +67,83 @@ service Blog {
 	}
 };
 
-
+// 列出文章请求
 message ListArticleReq {
-	int64 page = 1;
-	int64 page_size = 2;
-	string tag = 3;
+	// 文章名
+	optional string name = 1;
+	// 文章标签
+	optional string article_tag = 2;
+	// 当前页
+	int64 current = 3;
+	// 每页条数
+	int64 page_size = 4;
+	
 }
 
+// 列出文章响应
 message ListArticleReply {
+	// 总数
 	int64 total = 1;
+	// 文章列表
 	repeated common.model.Article articles = 2;
 }
 
+// 获取单个文章请求
 message GetArticleReq {
 	int64 id = 1[(validate.rules).int64 = {gt: 0}];
 }
 
+// 获取单个文章响应
 message GetArticleReply {
 	common.model.Article article = 1;
 }
 
+// 创建文章请求
 message CreateArticleReq {
+	// 文章标题
     string title = 1;
+	// 文章摘要
     string summary = 2;
+    // 文章封面
     optional string image = 3;
+    // 文章Markdown内容
     string content_md = 4;
-	repeated string tags = 5;
+	// 文章标签
+	message ArticleTag {
+		// 标签名称
+		string name = 1;
+	}
+	repeated ArticleTag article_tags = 5;
 }
 
+// 创建文章响应
 message CreateArticleReply {
 	common.model.Article article = 1;
 }
 
+// 更新文章请求
 message UpdateArticleReq {
     int64 id = 1[(validate.rules).int64 = {gt: 0}];
     optional string title = 2[(validate.rules).string = {min_len: 1, max_len: 120}];
     optional string summary = 3[(validate.rules).string =  {min_len: 1, max_len: 240}];
     optional string image = 4[(validate.rules).string = {min_len: 1, max_len: 120}];
     optional string content_md = 5[(validate.rules).string = {min_len: 1, max_len: 100000}];
+	repeated string tags = 6;
 }
 
+// 更新文章响应
 message UpdateArticleReply {
 	common.model.Article article = 1;
 }
 
+// 删除文章请求
 message DeleteArticleReq {
 	int64 id = 1[(validate.rules).int64 = {gt: 0}];
 }
 
+// 列出标签请求
 message ListTagReq {
+	// 标签名
 	int64 page = 1;
 	int64 page_size = 2;
 	string name = 3;
@@ -123,7 +151,7 @@ message ListTagReq {
 
 message ListTagReply {
 	int64 total = 1;
-	repeated common.model.Tag tags = 2;
+	repeated common.model.ArticleTag tags = 2;
 }
 
 message GetTagReq {
@@ -131,7 +159,7 @@ message GetTagReq {
 }
 
 message GetTagReply {
-	common.model.Tag tag = 1;
+	common.model.ArticleTag tag = 1;
 }
 
 message CreateTagReq {
@@ -139,7 +167,7 @@ message CreateTagReq {
 }
 
 message CreateTagReply {
-	common.model.Tag tag = 1;
+	common.model.ArticleTag tag = 1;
 }
 
 message UpdateTagReq {

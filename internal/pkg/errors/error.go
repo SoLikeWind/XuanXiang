@@ -1,6 +1,10 @@
 package errors
 
-import "github.com/go-kratos/kratos/v2/errors"
+import (
+	"fmt"
+
+	"github.com/go-kratos/kratos/v2/errors"
+)
 
 var (
 	ERROR_CONVERT_ARTICLE = errors.New(1021, "ERROR_CONVERT_Article", "转换Article错误")
@@ -15,3 +19,30 @@ var (
 	ERROR_COUNT_TAG  = errors.New(1033, "ERROT_COUNT_TAG", "统计Tag数量错误")
 	ERROR_GET_TAG    = errors.New(1034, "ERROT_GET_TAG", "获取Tag错误")
 )
+
+// Error 包装错误，将原生错误信息添加到自定义错误中
+func Error(customErr *errors.Error, originalErr error) error {
+	if originalErr == nil {
+		return customErr
+	}
+
+	// 创建一个新的错误，包含原始错误信息
+	return errors.New(
+		int(customErr.Code),
+		customErr.Reason,
+		fmt.Sprintf("%s: %v", customErr.Message, originalErr),
+	)
+}
+
+// // WrapWithContext 包装错误并添加上下文信息
+// func WrapWithContext(customErr *errors.Error, originalErr error, context string) error {
+// 	if originalErr == nil {
+// 		return customErr
+// 	}
+
+// 	return errors.New(
+// 		customErr.Code,
+// 		customErr.Reason,
+// 		fmt.Sprintf("%s [%s]: %v", customErr.Message(), context, originalErr),
+// 	)
+// }

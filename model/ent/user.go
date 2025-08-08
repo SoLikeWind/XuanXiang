@@ -43,11 +43,9 @@ type User struct {
 type UserEdges struct {
 	// Artilces holds the value of the artilces edge.
 	Artilces []*Article `json:"artilces,omitempty"`
-	// Tags holds the value of the tags edge.
-	Tags []*Tag `json:"tags,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
+	loadedTypes [1]bool
 }
 
 // ArtilcesOrErr returns the Artilces value or an error if the edge
@@ -57,15 +55,6 @@ func (e UserEdges) ArtilcesOrErr() ([]*Article, error) {
 		return e.Artilces, nil
 	}
 	return nil, &NotLoadedError{edge: "artilces"}
-}
-
-// TagsOrErr returns the Tags value or an error if the edge
-// was not loaded in eager-loading.
-func (e UserEdges) TagsOrErr() ([]*Tag, error) {
-	if e.loadedTypes[1] {
-		return e.Tags, nil
-	}
-	return nil, &NotLoadedError{edge: "tags"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -166,11 +155,6 @@ func (u *User) Value(name string) (ent.Value, error) {
 // QueryArtilces queries the "artilces" edge of the User entity.
 func (u *User) QueryArtilces() *ArticleQuery {
 	return NewUserClient(u.config).QueryArtilces(u)
-}
-
-// QueryTags queries the "tags" edge of the User entity.
-func (u *User) QueryTags() *TagQuery {
-	return NewUserClient(u.config).QueryTags(u)
 }
 
 // Update returns a builder for updating this User.

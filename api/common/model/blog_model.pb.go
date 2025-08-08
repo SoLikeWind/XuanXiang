@@ -2,12 +2,11 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.30.0
-// source: common/model/blog_field.proto
+// source: common/model/blog_model.proto
 
 package model
 
 import (
-	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -41,7 +40,7 @@ type Article struct {
 	// 文章浏览量
 	Views int64 `protobuf:"varint,7,opt,name=views,proto3" json:"views,omitempty"`
 	// 文章标签
-	Tags []*Tag `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty"`
+	Tags []*ArticleTag `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty"`
 	// 文章创建时间
 	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	// 文章更新时间
@@ -52,7 +51,7 @@ type Article struct {
 
 func (x *Article) Reset() {
 	*x = Article{}
-	mi := &file_common_model_blog_field_proto_msgTypes[0]
+	mi := &file_common_model_blog_model_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -64,7 +63,7 @@ func (x *Article) String() string {
 func (*Article) ProtoMessage() {}
 
 func (x *Article) ProtoReflect() protoreflect.Message {
-	mi := &file_common_model_blog_field_proto_msgTypes[0]
+	mi := &file_common_model_blog_model_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -77,7 +76,7 @@ func (x *Article) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Article.ProtoReflect.Descriptor instead.
 func (*Article) Descriptor() ([]byte, []int) {
-	return file_common_model_blog_field_proto_rawDescGZIP(), []int{0}
+	return file_common_model_blog_model_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Article) GetId() int64 {
@@ -129,7 +128,7 @@ func (x *Article) GetViews() int64 {
 	return 0
 }
 
-func (x *Article) GetTags() []*Tag {
+func (x *Article) GetTags() []*ArticleTag {
 	if x != nil {
 		return x.Tags
 	}
@@ -150,29 +149,34 @@ func (x *Article) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-type Tag struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+// 文章标签
+type ArticleTag struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 标签ID
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	// 文章ID
+	ArticleId int64 `protobuf:"varint,2,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
+	// 标签名称
+	Name          string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Tag) Reset() {
-	*x = Tag{}
-	mi := &file_common_model_blog_field_proto_msgTypes[1]
+func (x *ArticleTag) Reset() {
+	*x = ArticleTag{}
+	mi := &file_common_model_blog_model_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Tag) String() string {
+func (x *ArticleTag) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Tag) ProtoMessage() {}
+func (*ArticleTag) ProtoMessage() {}
 
-func (x *Tag) ProtoReflect() protoreflect.Message {
-	mi := &file_common_model_blog_field_proto_msgTypes[1]
+func (x *ArticleTag) ProtoReflect() protoreflect.Message {
+	mi := &file_common_model_blog_model_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -183,19 +187,26 @@ func (x *Tag) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Tag.ProtoReflect.Descriptor instead.
-func (*Tag) Descriptor() ([]byte, []int) {
-	return file_common_model_blog_field_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use ArticleTag.ProtoReflect.Descriptor instead.
+func (*ArticleTag) Descriptor() ([]byte, []int) {
+	return file_common_model_blog_model_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Tag) GetId() int64 {
+func (x *ArticleTag) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *Tag) GetName() string {
+func (x *ArticleTag) GetArticleId() int64 {
+	if x != nil {
+		return x.ArticleId
+	}
+	return 0
+}
+
+func (x *ArticleTag) GetName() string {
 	if x != nil {
 		return x.Name
 	}
@@ -218,7 +229,7 @@ type User struct {
 
 func (x *User) Reset() {
 	*x = User{}
-	mi := &file_common_model_blog_field_proto_msgTypes[2]
+	mi := &file_common_model_blog_model_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -230,7 +241,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_common_model_blog_field_proto_msgTypes[2]
+	mi := &file_common_model_blog_model_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -243,7 +254,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_common_model_blog_field_proto_rawDescGZIP(), []int{2}
+	return file_common_model_blog_model_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *User) GetId() int64 {
@@ -302,29 +313,32 @@ func (x *User) GetArticles() []*Article {
 	return nil
 }
 
-var File_common_model_blog_field_proto protoreflect.FileDescriptor
+var File_common_model_blog_model_proto protoreflect.FileDescriptor
 
-const file_common_model_blog_field_proto_rawDesc = "" +
+const file_common_model_blog_model_proto_rawDesc = "" +
 	"\n" +
-	"\x1dcommon/model/blog_field.proto\x12\fcommon.model\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xdd\x02\n" +
-	"\aArticle\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\x12\x14\n" +
+	"\x1dcommon/model/blog_model.proto\x12\fcommon.model\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdb\x02\n" +
+	"\aArticle\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x14\n" +
 	"\x05image\x18\x04 \x01(\tR\x05image\x12\x1d\n" +
 	"\n" +
 	"content_md\x18\x05 \x01(\tR\tcontentMd\x12!\n" +
 	"\fcontent_html\x18\x06 \x01(\tR\vcontentHtml\x12\x14\n" +
-	"\x05views\x18\a \x01(\x03R\x05views\x12%\n" +
-	"\x04tags\x18\b \x03(\v2\x11.common.model.TagR\x04tags\x129\n" +
+	"\x05views\x18\a \x01(\x03R\x05views\x12,\n" +
+	"\x04tags\x18\b \x03(\v2\x18.common.model.ArticleTagR\x04tags\x129\n" +
 	"\n" +
 	"created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\")\n" +
-	"\x03Tag\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"\xd1\x01\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"O\n" +
+	"\n" +
+	"ArticleTag\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1d\n" +
+	"\n" +
+	"article_id\x18\x02 \x01(\x03R\tarticleId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"\xd1\x01\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x18\n" +
 	"\aaccount\x18\x02 \x01(\tR\aaccount\x12\x1a\n" +
@@ -336,26 +350,26 @@ const file_common_model_blog_field_proto_rawDesc = "" +
 	"\barticles\x18\b \x03(\v2\x15.common.model.ArticleR\barticlesB8Z6github.com/SoLikeWind/XuanXiang/api/common/model;modelb\x06proto3"
 
 var (
-	file_common_model_blog_field_proto_rawDescOnce sync.Once
-	file_common_model_blog_field_proto_rawDescData []byte
+	file_common_model_blog_model_proto_rawDescOnce sync.Once
+	file_common_model_blog_model_proto_rawDescData []byte
 )
 
-func file_common_model_blog_field_proto_rawDescGZIP() []byte {
-	file_common_model_blog_field_proto_rawDescOnce.Do(func() {
-		file_common_model_blog_field_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_common_model_blog_field_proto_rawDesc), len(file_common_model_blog_field_proto_rawDesc)))
+func file_common_model_blog_model_proto_rawDescGZIP() []byte {
+	file_common_model_blog_model_proto_rawDescOnce.Do(func() {
+		file_common_model_blog_model_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_common_model_blog_model_proto_rawDesc), len(file_common_model_blog_model_proto_rawDesc)))
 	})
-	return file_common_model_blog_field_proto_rawDescData
+	return file_common_model_blog_model_proto_rawDescData
 }
 
-var file_common_model_blog_field_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_common_model_blog_field_proto_goTypes = []any{
+var file_common_model_blog_model_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_common_model_blog_model_proto_goTypes = []any{
 	(*Article)(nil),               // 0: common.model.Article
-	(*Tag)(nil),                   // 1: common.model.Tag
+	(*ArticleTag)(nil),            // 1: common.model.ArticleTag
 	(*User)(nil),                  // 2: common.model.User
 	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
-var file_common_model_blog_field_proto_depIdxs = []int32{
-	1, // 0: common.model.Article.tags:type_name -> common.model.Tag
+var file_common_model_blog_model_proto_depIdxs = []int32{
+	1, // 0: common.model.Article.tags:type_name -> common.model.ArticleTag
 	3, // 1: common.model.Article.created_at:type_name -> google.protobuf.Timestamp
 	3, // 2: common.model.Article.updated_at:type_name -> google.protobuf.Timestamp
 	0, // 3: common.model.User.articles:type_name -> common.model.Article
@@ -366,26 +380,26 @@ var file_common_model_blog_field_proto_depIdxs = []int32{
 	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_common_model_blog_field_proto_init() }
-func file_common_model_blog_field_proto_init() {
-	if File_common_model_blog_field_proto != nil {
+func init() { file_common_model_blog_model_proto_init() }
+func file_common_model_blog_model_proto_init() {
+	if File_common_model_blog_model_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_model_blog_field_proto_rawDesc), len(file_common_model_blog_field_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_model_blog_model_proto_rawDesc), len(file_common_model_blog_model_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_common_model_blog_field_proto_goTypes,
-		DependencyIndexes: file_common_model_blog_field_proto_depIdxs,
-		MessageInfos:      file_common_model_blog_field_proto_msgTypes,
+		GoTypes:           file_common_model_blog_model_proto_goTypes,
+		DependencyIndexes: file_common_model_blog_model_proto_depIdxs,
+		MessageInfos:      file_common_model_blog_model_proto_msgTypes,
 	}.Build()
-	File_common_model_blog_field_proto = out.File
-	file_common_model_blog_field_proto_goTypes = nil
-	file_common_model_blog_field_proto_depIdxs = nil
+	File_common_model_blog_model_proto = out.File
+	file_common_model_blog_model_proto_goTypes = nil
+	file_common_model_blog_model_proto_depIdxs = nil
 }

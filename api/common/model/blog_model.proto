@@ -3,28 +3,42 @@ syntax = "proto3";
 package common.model;
 
 import "google/protobuf/timestamp.proto";
-import "validate/validate.proto";
 
 option go_package = "github.com/SoLikeWind/XuanXiang/api/common/model;model";
 
 // 文章
 message Article {
-    // 
-    int64 id = 1[(validate.rules).int64 = {gt: 0}];
+    // 文章ID
+    int64 id = 1;
+    // 文章标题
     string title = 2;
+    // 文章摘要
     string summary = 3;
+    // 文章封面
     string image = 4;
+    // 文章Markdown内容
     string content_md = 5;
+    // 文章HTML内容
     string content_html = 6;
+    // 文章浏览量
     int64 views = 7;
-    repeated Tag tags = 8;
+    // 文章标签
+    repeated ArticleTag tags = 8;
+    // 文章创建时间
     google.protobuf.Timestamp created_at = 9;
+    // 文章更新时间
     google.protobuf.Timestamp updated_at = 10;
 }
 
-message Tag {
+// 文章标签
+message ArticleTag {
+    // 标签ID
     int64 id = 1;
-    string name = 2;
+    // 文章ID
+    int64 article_id = 2;
+    // 标签名称
+    string name = 3;
+
 }
 
 message User {
@@ -36,5 +50,5 @@ message User {
     string email = 6; // 可选
     string sign = 7;  // 可选
     repeated Article articles = 8; // 关联的文章
-    repeated Tag tags = 9;
+    // repeated Tag tags = 9;
 }

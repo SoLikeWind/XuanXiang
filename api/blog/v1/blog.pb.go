@@ -25,11 +25,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 列出文章请求
 type ListArticleReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
-	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	Tag           string                 `protobuf:"bytes,3,opt,name=tag,proto3" json:"tag,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 文章名
+	Name *string `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	// 文章标签
+	ArticleTag *string `protobuf:"bytes,2,opt,name=article_tag,json=articleTag,proto3,oneof" json:"article_tag,omitempty"`
+	// 当前页
+	Current int64 `protobuf:"varint,3,opt,name=current,proto3" json:"current,omitempty"`
+	// 每页条数
+	PageSize      int64 `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -64,9 +70,23 @@ func (*ListArticleReq) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ListArticleReq) GetPage() int64 {
+func (x *ListArticleReq) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *ListArticleReq) GetArticleTag() string {
+	if x != nil && x.ArticleTag != nil {
+		return *x.ArticleTag
+	}
+	return ""
+}
+
+func (x *ListArticleReq) GetCurrent() int64 {
 	if x != nil {
-		return x.Page
+		return x.Current
 	}
 	return 0
 }
@@ -78,17 +98,13 @@ func (x *ListArticleReq) GetPageSize() int64 {
 	return 0
 }
 
-func (x *ListArticleReq) GetTag() string {
-	if x != nil {
-		return x.Tag
-	}
-	return ""
-}
-
+// 列出文章响应
 type ListArticleReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         int64                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Articles      []*model.Article       `protobuf:"bytes,2,rep,name=articles,proto3" json:"articles,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 总数
+	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	// 文章列表
+	Articles      []*model.Article `protobuf:"bytes,2,rep,name=articles,proto3" json:"articles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -137,6 +153,7 @@ func (x *ListArticleReply) GetArticles() []*model.Article {
 	return nil
 }
 
+// 获取单个文章请求
 type GetArticleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -181,6 +198,7 @@ func (x *GetArticleReq) GetId() int64 {
 	return 0
 }
 
+// 获取单个文章响应
 type GetArticleReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Article       *model.Article         `protobuf:"bytes,1,opt,name=article,proto3" json:"article,omitempty"`
@@ -225,13 +243,18 @@ func (x *GetArticleReply) GetArticle() *model.Article {
 	return nil
 }
 
+// 创建文章请求
 type CreateArticleReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
-	Summary       string                 `protobuf:"bytes,2,opt,name=summary,proto3" json:"summary,omitempty"`
-	Image         *string                `protobuf:"bytes,3,opt,name=image,proto3,oneof" json:"image,omitempty"`
-	ContentMd     string                 `protobuf:"bytes,4,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
-	Tags          []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 文章标题
+	Title string `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	// 文章摘要
+	Summary string `protobuf:"bytes,2,opt,name=summary,proto3" json:"summary,omitempty"`
+	// 文章封面
+	Image *string `protobuf:"bytes,3,opt,name=image,proto3,oneof" json:"image,omitempty"`
+	// 文章Markdown内容
+	ContentMd     string                         `protobuf:"bytes,4,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
+	ArticleTags   []*CreateArticleReq_ArticleTag `protobuf:"bytes,5,rep,name=article_tags,json=articleTags,proto3" json:"article_tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -294,13 +317,14 @@ func (x *CreateArticleReq) GetContentMd() string {
 	return ""
 }
 
-func (x *CreateArticleReq) GetTags() []string {
+func (x *CreateArticleReq) GetArticleTags() []*CreateArticleReq_ArticleTag {
 	if x != nil {
-		return x.Tags
+		return x.ArticleTags
 	}
 	return nil
 }
 
+// 创建文章响应
 type CreateArticleReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Article       *model.Article         `protobuf:"bytes,1,opt,name=article,proto3" json:"article,omitempty"`
@@ -345,6 +369,7 @@ func (x *CreateArticleReply) GetArticle() *model.Article {
 	return nil
 }
 
+// 更新文章请求
 type UpdateArticleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -352,6 +377,7 @@ type UpdateArticleReq struct {
 	Summary       *string                `protobuf:"bytes,3,opt,name=summary,proto3,oneof" json:"summary,omitempty"`
 	Image         *string                `protobuf:"bytes,4,opt,name=image,proto3,oneof" json:"image,omitempty"`
 	ContentMd     *string                `protobuf:"bytes,5,opt,name=content_md,json=contentMd,proto3,oneof" json:"content_md,omitempty"`
+	Tags          []string               `protobuf:"bytes,6,rep,name=tags,proto3" json:"tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -421,6 +447,14 @@ func (x *UpdateArticleReq) GetContentMd() string {
 	return ""
 }
 
+func (x *UpdateArticleReq) GetTags() []string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
+}
+
+// 更新文章响应
 type UpdateArticleReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Article       *model.Article         `protobuf:"bytes,1,opt,name=article,proto3" json:"article,omitempty"`
@@ -465,6 +499,7 @@ func (x *UpdateArticleReply) GetArticle() *model.Article {
 	return nil
 }
 
+// 删除文章请求
 type DeleteArticleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -509,11 +544,13 @@ func (x *DeleteArticleReq) GetId() int64 {
 	return 0
 }
 
+// 列出标签请求
 type ListTagReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
-	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 标签名
+	Page          int64  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int64  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Name          string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -572,7 +609,7 @@ func (x *ListTagReq) GetName() string {
 type ListTagReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int64                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Tags          []*model.Tag           `protobuf:"bytes,2,rep,name=tags,proto3" json:"tags,omitempty"`
+	Tags          []*model.ArticleTag    `protobuf:"bytes,2,rep,name=tags,proto3" json:"tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -614,7 +651,7 @@ func (x *ListTagReply) GetTotal() int64 {
 	return 0
 }
 
-func (x *ListTagReply) GetTags() []*model.Tag {
+func (x *ListTagReply) GetTags() []*model.ArticleTag {
 	if x != nil {
 		return x.Tags
 	}
@@ -667,7 +704,7 @@ func (x *GetTagReq) GetId() string {
 
 type GetTagReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Tag           *model.Tag             `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
+	Tag           *model.ArticleTag      `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -702,7 +739,7 @@ func (*GetTagReply) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *GetTagReply) GetTag() *model.Tag {
+func (x *GetTagReply) GetTag() *model.ArticleTag {
 	if x != nil {
 		return x.Tag
 	}
@@ -755,7 +792,7 @@ func (x *CreateTagReq) GetName() string {
 
 type CreateTagReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Tag           *model.Tag             `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
+	Tag           *model.ArticleTag      `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -790,7 +827,7 @@ func (*CreateTagReply) Descriptor() ([]byte, []int) {
 	return file_blog_v1_blog_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *CreateTagReply) GetTag() *model.Tag {
+func (x *CreateTagReply) GetTag() *model.ArticleTag {
 	if x != nil {
 		return x.Tag
 	}
@@ -893,32 +930,85 @@ func (x *DeleteTagReq) GetId() string {
 	return ""
 }
 
+// 文章标签
+type CreateArticleReq_ArticleTag struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 标签名称
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateArticleReq_ArticleTag) Reset() {
+	*x = CreateArticleReq_ArticleTag{}
+	mi := &file_blog_v1_blog_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateArticleReq_ArticleTag) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateArticleReq_ArticleTag) ProtoMessage() {}
+
+func (x *CreateArticleReq_ArticleTag) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_v1_blog_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateArticleReq_ArticleTag.ProtoReflect.Descriptor instead.
+func (*CreateArticleReq_ArticleTag) Descriptor() ([]byte, []int) {
+	return file_blog_v1_blog_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *CreateArticleReq_ArticleTag) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_blog_v1_blog_proto protoreflect.FileDescriptor
 
 const file_blog_v1_blog_proto_rawDesc = "" +
 	"\n" +
-	"\x12blog/v1/blog.proto\x12\ablog.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x17validate/validate.proto\x1a\x1dcommon/model/blog_field.proto\"S\n" +
-	"\x0eListArticleReq\x12\x12\n" +
-	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x10\n" +
-	"\x03tag\x18\x03 \x01(\tR\x03tag\"[\n" +
+	"\x12blog/v1/blog.proto\x12\ablog.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x17validate/validate.proto\x1a\x1dcommon/model/blog_model.proto\"\x9f\x01\n" +
+	"\x0eListArticleReq\x12\x17\n" +
+	"\x04name\x18\x01 \x01(\tH\x00R\x04name\x88\x01\x01\x12$\n" +
+	"\varticle_tag\x18\x02 \x01(\tH\x01R\n" +
+	"articleTag\x88\x01\x01\x12\x18\n" +
+	"\acurrent\x18\x03 \x01(\x03R\acurrent\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x03R\bpageSizeB\a\n" +
+	"\x05_nameB\x0e\n" +
+	"\f_article_tag\"[\n" +
 	"\x10ListArticleReply\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x121\n" +
 	"\barticles\x18\x02 \x03(\v2\x15.common.model.ArticleR\barticles\"(\n" +
 	"\rGetArticleReq\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\"B\n" +
 	"\x0fGetArticleReply\x12/\n" +
-	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\x9a\x01\n" +
+	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\xf1\x01\n" +
 	"\x10CreateArticleReq\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12\x18\n" +
 	"\asummary\x18\x02 \x01(\tR\asummary\x12\x19\n" +
 	"\x05image\x18\x03 \x01(\tH\x00R\x05image\x88\x01\x01\x12\x1d\n" +
 	"\n" +
-	"content_md\x18\x04 \x01(\tR\tcontentMd\x12\x12\n" +
-	"\x04tags\x18\x05 \x03(\tR\x04tagsB\b\n" +
+	"content_md\x18\x04 \x01(\tR\tcontentMd\x12G\n" +
+	"\farticle_tags\x18\x05 \x03(\v2$.blog.v1.CreateArticleReq.ArticleTagR\varticleTags\x1a \n" +
+	"\n" +
+	"ArticleTag\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04nameB\b\n" +
 	"\x06_image\"E\n" +
 	"\x12CreateArticleReply\x12/\n" +
-	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\x82\x02\n" +
+	"\aarticle\x18\x01 \x01(\v2\x15.common.model.ArticleR\aarticle\"\x96\x02\n" +
 	"\x10UpdateArticleReq\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02 \x00R\x02id\x12$\n" +
 	"\x05title\x18\x02 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18xH\x00R\x05title\x88\x01\x01\x12)\n" +
@@ -926,7 +1016,8 @@ const file_blog_v1_blog_proto_rawDesc = "" +
 	"\xfaB\ar\x05\x10\x01\x18\xf0\x01H\x01R\asummary\x88\x01\x01\x12$\n" +
 	"\x05image\x18\x04 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18xH\x02R\x05image\x88\x01\x01\x12/\n" +
 	"\n" +
-	"content_md\x18\x05 \x01(\tB\v\xfaB\br\x06\x10\x01\x18\xa0\x8d\x06H\x03R\tcontentMd\x88\x01\x01B\b\n" +
+	"content_md\x18\x05 \x01(\tB\v\xfaB\br\x06\x10\x01\x18\xa0\x8d\x06H\x03R\tcontentMd\x88\x01\x01\x12\x12\n" +
+	"\x04tags\x18\x06 \x03(\tR\x04tagsB\b\n" +
 	"\x06_titleB\n" +
 	"\n" +
 	"\b_summaryB\b\n" +
@@ -940,18 +1031,18 @@ const file_blog_v1_blog_proto_rawDesc = "" +
 	"ListTagReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\"K\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"R\n" +
 	"\fListTagReply\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x03R\x05total\x12%\n" +
-	"\x04tags\x18\x02 \x03(\v2\x11.common.model.TagR\x04tags\"\x1b\n" +
+	"\x05total\x18\x01 \x01(\x03R\x05total\x12,\n" +
+	"\x04tags\x18\x02 \x03(\v2\x18.common.model.ArticleTagR\x04tags\"\x1b\n" +
 	"\tGetTagReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"2\n" +
-	"\vGetTagReply\x12#\n" +
-	"\x03tag\x18\x01 \x01(\v2\x11.common.model.TagR\x03tag\"\"\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"9\n" +
+	"\vGetTagReply\x12*\n" +
+	"\x03tag\x18\x01 \x01(\v2\x18.common.model.ArticleTagR\x03tag\"\"\n" +
 	"\fCreateTagReq\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"5\n" +
-	"\x0eCreateTagReply\x12#\n" +
-	"\x03tag\x18\x01 \x01(\v2\x11.common.model.TagR\x03tag\"2\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"<\n" +
+	"\x0eCreateTagReply\x12*\n" +
+	"\x03tag\x18\x01 \x01(\v2\x18.common.model.ArticleTagR\x03tag\"2\n" +
 	"\fUpdateTagReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"\x1e\n" +
@@ -982,62 +1073,64 @@ func file_blog_v1_blog_proto_rawDescGZIP() []byte {
 	return file_blog_v1_blog_proto_rawDescData
 }
 
-var file_blog_v1_blog_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_blog_v1_blog_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_blog_v1_blog_proto_goTypes = []any{
-	(*ListArticleReq)(nil),     // 0: blog.v1.ListArticleReq
-	(*ListArticleReply)(nil),   // 1: blog.v1.ListArticleReply
-	(*GetArticleReq)(nil),      // 2: blog.v1.GetArticleReq
-	(*GetArticleReply)(nil),    // 3: blog.v1.GetArticleReply
-	(*CreateArticleReq)(nil),   // 4: blog.v1.CreateArticleReq
-	(*CreateArticleReply)(nil), // 5: blog.v1.CreateArticleReply
-	(*UpdateArticleReq)(nil),   // 6: blog.v1.UpdateArticleReq
-	(*UpdateArticleReply)(nil), // 7: blog.v1.UpdateArticleReply
-	(*DeleteArticleReq)(nil),   // 8: blog.v1.DeleteArticleReq
-	(*ListTagReq)(nil),         // 9: blog.v1.ListTagReq
-	(*ListTagReply)(nil),       // 10: blog.v1.ListTagReply
-	(*GetTagReq)(nil),          // 11: blog.v1.GetTagReq
-	(*GetTagReply)(nil),        // 12: blog.v1.GetTagReply
-	(*CreateTagReq)(nil),       // 13: blog.v1.CreateTagReq
-	(*CreateTagReply)(nil),     // 14: blog.v1.CreateTagReply
-	(*UpdateTagReq)(nil),       // 15: blog.v1.UpdateTagReq
-	(*DeleteTagReq)(nil),       // 16: blog.v1.DeleteTagReq
-	(*model.Article)(nil),      // 17: common.model.Article
-	(*model.Tag)(nil),          // 18: common.model.Tag
-	(*emptypb.Empty)(nil),      // 19: google.protobuf.Empty
+	(*ListArticleReq)(nil),              // 0: blog.v1.ListArticleReq
+	(*ListArticleReply)(nil),            // 1: blog.v1.ListArticleReply
+	(*GetArticleReq)(nil),               // 2: blog.v1.GetArticleReq
+	(*GetArticleReply)(nil),             // 3: blog.v1.GetArticleReply
+	(*CreateArticleReq)(nil),            // 4: blog.v1.CreateArticleReq
+	(*CreateArticleReply)(nil),          // 5: blog.v1.CreateArticleReply
+	(*UpdateArticleReq)(nil),            // 6: blog.v1.UpdateArticleReq
+	(*UpdateArticleReply)(nil),          // 7: blog.v1.UpdateArticleReply
+	(*DeleteArticleReq)(nil),            // 8: blog.v1.DeleteArticleReq
+	(*ListTagReq)(nil),                  // 9: blog.v1.ListTagReq
+	(*ListTagReply)(nil),                // 10: blog.v1.ListTagReply
+	(*GetTagReq)(nil),                   // 11: blog.v1.GetTagReq
+	(*GetTagReply)(nil),                 // 12: blog.v1.GetTagReply
+	(*CreateTagReq)(nil),                // 13: blog.v1.CreateTagReq
+	(*CreateTagReply)(nil),              // 14: blog.v1.CreateTagReply
+	(*UpdateTagReq)(nil),                // 15: blog.v1.UpdateTagReq
+	(*DeleteTagReq)(nil),                // 16: blog.v1.DeleteTagReq
+	(*CreateArticleReq_ArticleTag)(nil), // 17: blog.v1.CreateArticleReq.ArticleTag
+	(*model.Article)(nil),               // 18: common.model.Article
+	(*model.ArticleTag)(nil),            // 19: common.model.ArticleTag
+	(*emptypb.Empty)(nil),               // 20: google.protobuf.Empty
 }
 var file_blog_v1_blog_proto_depIdxs = []int32{
-	17, // 0: blog.v1.ListArticleReply.articles:type_name -> common.model.Article
-	17, // 1: blog.v1.GetArticleReply.article:type_name -> common.model.Article
-	17, // 2: blog.v1.CreateArticleReply.article:type_name -> common.model.Article
-	17, // 3: blog.v1.UpdateArticleReply.article:type_name -> common.model.Article
-	18, // 4: blog.v1.ListTagReply.tags:type_name -> common.model.Tag
-	18, // 5: blog.v1.GetTagReply.tag:type_name -> common.model.Tag
-	18, // 6: blog.v1.CreateTagReply.tag:type_name -> common.model.Tag
-	0,  // 7: blog.v1.Blog.ListArticle:input_type -> blog.v1.ListArticleReq
-	2,  // 8: blog.v1.Blog.GetArticle:input_type -> blog.v1.GetArticleReq
-	4,  // 9: blog.v1.Blog.CreateArticle:input_type -> blog.v1.CreateArticleReq
-	6,  // 10: blog.v1.Blog.UpdateArticle:input_type -> blog.v1.UpdateArticleReq
-	8,  // 11: blog.v1.Blog.DeleteArticle:input_type -> blog.v1.DeleteArticleReq
-	9,  // 12: blog.v1.Blog.ListTag:input_type -> blog.v1.ListTagReq
-	11, // 13: blog.v1.Blog.GetTag:input_type -> blog.v1.GetTagReq
-	13, // 14: blog.v1.Blog.CreateTag:input_type -> blog.v1.CreateTagReq
-	15, // 15: blog.v1.Blog.UpdateTag:input_type -> blog.v1.UpdateTagReq
-	16, // 16: blog.v1.Blog.DeleteTag:input_type -> blog.v1.DeleteTagReq
-	1,  // 17: blog.v1.Blog.ListArticle:output_type -> blog.v1.ListArticleReply
-	3,  // 18: blog.v1.Blog.GetArticle:output_type -> blog.v1.GetArticleReply
-	5,  // 19: blog.v1.Blog.CreateArticle:output_type -> blog.v1.CreateArticleReply
-	19, // 20: blog.v1.Blog.UpdateArticle:output_type -> google.protobuf.Empty
-	19, // 21: blog.v1.Blog.DeleteArticle:output_type -> google.protobuf.Empty
-	10, // 22: blog.v1.Blog.ListTag:output_type -> blog.v1.ListTagReply
-	12, // 23: blog.v1.Blog.GetTag:output_type -> blog.v1.GetTagReply
-	14, // 24: blog.v1.Blog.CreateTag:output_type -> blog.v1.CreateTagReply
-	19, // 25: blog.v1.Blog.UpdateTag:output_type -> google.protobuf.Empty
-	19, // 26: blog.v1.Blog.DeleteTag:output_type -> google.protobuf.Empty
-	17, // [17:27] is the sub-list for method output_type
-	7,  // [7:17] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	18, // 0: blog.v1.ListArticleReply.articles:type_name -> common.model.Article
+	18, // 1: blog.v1.GetArticleReply.article:type_name -> common.model.Article
+	17, // 2: blog.v1.CreateArticleReq.article_tags:type_name -> blog.v1.CreateArticleReq.ArticleTag
+	18, // 3: blog.v1.CreateArticleReply.article:type_name -> common.model.Article
+	18, // 4: blog.v1.UpdateArticleReply.article:type_name -> common.model.Article
+	19, // 5: blog.v1.ListTagReply.tags:type_name -> common.model.ArticleTag
+	19, // 6: blog.v1.GetTagReply.tag:type_name -> common.model.ArticleTag
+	19, // 7: blog.v1.CreateTagReply.tag:type_name -> common.model.ArticleTag
+	0,  // 8: blog.v1.Blog.ListArticle:input_type -> blog.v1.ListArticleReq
+	2,  // 9: blog.v1.Blog.GetArticle:input_type -> blog.v1.GetArticleReq
+	4,  // 10: blog.v1.Blog.CreateArticle:input_type -> blog.v1.CreateArticleReq
+	6,  // 11: blog.v1.Blog.UpdateArticle:input_type -> blog.v1.UpdateArticleReq
+	8,  // 12: blog.v1.Blog.DeleteArticle:input_type -> blog.v1.DeleteArticleReq
+	9,  // 13: blog.v1.Blog.ListTag:input_type -> blog.v1.ListTagReq
+	11, // 14: blog.v1.Blog.GetTag:input_type -> blog.v1.GetTagReq
+	13, // 15: blog.v1.Blog.CreateTag:input_type -> blog.v1.CreateTagReq
+	15, // 16: blog.v1.Blog.UpdateTag:input_type -> blog.v1.UpdateTagReq
+	16, // 17: blog.v1.Blog.DeleteTag:input_type -> blog.v1.DeleteTagReq
+	1,  // 18: blog.v1.Blog.ListArticle:output_type -> blog.v1.ListArticleReply
+	3,  // 19: blog.v1.Blog.GetArticle:output_type -> blog.v1.GetArticleReply
+	5,  // 20: blog.v1.Blog.CreateArticle:output_type -> blog.v1.CreateArticleReply
+	20, // 21: blog.v1.Blog.UpdateArticle:output_type -> google.protobuf.Empty
+	20, // 22: blog.v1.Blog.DeleteArticle:output_type -> google.protobuf.Empty
+	10, // 23: blog.v1.Blog.ListTag:output_type -> blog.v1.ListTagReply
+	12, // 24: blog.v1.Blog.GetTag:output_type -> blog.v1.GetTagReply
+	14, // 25: blog.v1.Blog.CreateTag:output_type -> blog.v1.CreateTagReply
+	20, // 26: blog.v1.Blog.UpdateTag:output_type -> google.protobuf.Empty
+	20, // 27: blog.v1.Blog.DeleteTag:output_type -> google.protobuf.Empty
+	18, // [18:28] is the sub-list for method output_type
+	8,  // [8:18] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_blog_v1_blog_proto_init() }
@@ -1045,6 +1138,7 @@ func file_blog_v1_blog_proto_init() {
 	if File_blog_v1_blog_proto != nil {
 		return
 	}
+	file_blog_v1_blog_proto_msgTypes[0].OneofWrappers = []any{}
 	file_blog_v1_blog_proto_msgTypes[4].OneofWrappers = []any{}
 	file_blog_v1_blog_proto_msgTypes[6].OneofWrappers = []any{}
 	type x struct{}
@@ -1053,7 +1147,7 @@ func file_blog_v1_blog_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_v1_blog_proto_rawDesc), len(file_blog_v1_blog_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

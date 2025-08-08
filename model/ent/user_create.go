@@ -11,7 +11,6 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/SoLikeWind/XuanXiang/model/ent/article"
-	"github.com/SoLikeWind/XuanXiang/model/ent/tag"
 	"github.com/SoLikeWind/XuanXiang/model/ent/user"
 )
 
@@ -121,21 +120,6 @@ func (uc *UserCreate) AddArtilces(a ...*Article) *UserCreate {
 		ids[i] = a[i].ID
 	}
 	return uc.AddArtilceIDs(ids...)
-}
-
-// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
-func (uc *UserCreate) AddTagIDs(ids ...int64) *UserCreate {
-	uc.mutation.AddTagIDs(ids...)
-	return uc
-}
-
-// AddTags adds the "tags" edges to the Tag entity.
-func (uc *UserCreate) AddTags(t ...*Tag) *UserCreate {
-	ids := make([]int64, len(t))
-	for i := range t {
-		ids[i] = t[i].ID
-	}
-	return uc.AddTagIDs(ids...)
 }
 
 // Mutation returns the UserMutation object of the builder.
@@ -276,22 +260,6 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64),
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := uc.mutation.TagsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   user.TagsTable,
-			Columns: []string{user.TagsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt64),
 			},
 		}
 		for _, k := range nodes {

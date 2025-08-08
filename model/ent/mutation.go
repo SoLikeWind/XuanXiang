@@ -1443,9 +1443,6 @@ type UserMutation struct {
 	artilces        map[int64]struct{}
 	removedartilces map[int64]struct{}
 	clearedartilces bool
-	tags            map[int64]struct{}
-	removedtags     map[int64]struct{}
-	clearedtags     bool
 	done            bool
 	oldValue        func(context.Context) (*User, error)
 	predicates      []predicate.User
@@ -1923,60 +1920,6 @@ func (m *UserMutation) ResetArtilces() {
 	m.removedartilces = nil
 }
 
-// AddTagIDs adds the "tags" edge to the Tag entity by ids.
-func (m *UserMutation) AddTagIDs(ids ...int64) {
-	if m.tags == nil {
-		m.tags = make(map[int64]struct{})
-	}
-	for i := range ids {
-		m.tags[ids[i]] = struct{}{}
-	}
-}
-
-// ClearTags clears the "tags" edge to the Tag entity.
-func (m *UserMutation) ClearTags() {
-	m.clearedtags = true
-}
-
-// TagsCleared reports if the "tags" edge to the Tag entity was cleared.
-func (m *UserMutation) TagsCleared() bool {
-	return m.clearedtags
-}
-
-// RemoveTagIDs removes the "tags" edge to the Tag entity by IDs.
-func (m *UserMutation) RemoveTagIDs(ids ...int64) {
-	if m.removedtags == nil {
-		m.removedtags = make(map[int64]struct{})
-	}
-	for i := range ids {
-		delete(m.tags, ids[i])
-		m.removedtags[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedTags returns the removed IDs of the "tags" edge to the Tag entity.
-func (m *UserMutation) RemovedTagsIDs() (ids []int64) {
-	for id := range m.removedtags {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// TagsIDs returns the "tags" edge IDs in the mutation.
-func (m *UserMutation) TagsIDs() (ids []int64) {
-	for id := range m.tags {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetTags resets all changes to the "tags" edge.
-func (m *UserMutation) ResetTags() {
-	m.tags = nil
-	m.clearedtags = false
-	m.removedtags = nil
-}
-
 // Where appends a list predicates to the UserMutation builder.
 func (m *UserMutation) Where(ps ...predicate.User) {
 	m.predicates = append(m.predicates, ps...)
@@ -2244,12 +2187,9 @@ func (m *UserMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *UserMutation) AddedEdges() []string {
-	edges := make([]string, 0, 2)
+	edges := make([]string, 0, 1)
 	if m.artilces != nil {
 		edges = append(edges, user.EdgeArtilces)
-	}
-	if m.tags != nil {
-		edges = append(edges, user.EdgeTags)
 	}
 	return edges
 }
@@ -2264,24 +2204,15 @@ func (m *UserMutation) AddedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
-	case user.EdgeTags:
-		ids := make([]ent.Value, 0, len(m.tags))
-		for id := range m.tags {
-			ids = append(ids, id)
-		}
-		return ids
 	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *UserMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 2)
+	edges := make([]string, 0, 1)
 	if m.removedartilces != nil {
 		edges = append(edges, user.EdgeArtilces)
-	}
-	if m.removedtags != nil {
-		edges = append(edges, user.EdgeTags)
 	}
 	return edges
 }
@@ -2296,24 +2227,15 @@ func (m *UserMutation) RemovedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
-	case user.EdgeTags:
-		ids := make([]ent.Value, 0, len(m.removedtags))
-		for id := range m.removedtags {
-			ids = append(ids, id)
-		}
-		return ids
 	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *UserMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 2)
+	edges := make([]string, 0, 1)
 	if m.clearedartilces {
 		edges = append(edges, user.EdgeArtilces)
-	}
-	if m.clearedtags {
-		edges = append(edges, user.EdgeTags)
 	}
 	return edges
 }
@@ -2324,8 +2246,6 @@ func (m *UserMutation) EdgeCleared(name string) bool {
 	switch name {
 	case user.EdgeArtilces:
 		return m.clearedartilces
-	case user.EdgeTags:
-		return m.clearedtags
 	}
 	return false
 }
@@ -2344,9 +2264,6 @@ func (m *UserMutation) ResetEdge(name string) error {
 	switch name {
 	case user.EdgeArtilces:
 		m.ResetArtilces()
-		return nil
-	case user.EdgeTags:
-		m.ResetTags()
 		return nil
 	}
 	return fmt.Errorf("unknown User edge %s", name)

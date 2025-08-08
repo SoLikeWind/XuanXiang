@@ -12,16 +12,24 @@ paths:
                 - Blog
             operationId: Blog_ListArticle
             parameters:
-                - name: page
+                - name: name
                   in: query
+                  description: 文章名
+                  schema:
+                    type: string
+                - name: articleTag
+                  in: query
+                  description: 文章标签
+                  schema:
+                    type: string
+                - name: current
+                  in: query
+                  description: 当前页
                   schema:
                     type: string
                 - name: pageSize
                   in: query
-                  schema:
-                    type: string
-                - name: tag
-                  in: query
+                  description: 每页条数
                   schema:
                     type: string
             responses:
@@ -108,6 +116,7 @@ paths:
             parameters:
                 - name: page
                   in: query
+                  description: 标签名
                   schema:
                     type: string
                 - name: pageSize
@@ -201,26 +210,39 @@ components:
             properties:
                 article:
                     $ref: '#/components/schemas/common.model.Article'
+            description: 创建文章响应
         blog.v1.CreateArticleReq:
             type: object
             properties:
                 title:
                     type: string
+                    description: 文章标题
                 summary:
                     type: string
+                    description: 文章摘要
                 image:
                     type: string
+                    description: 文章封面
                 contentMd:
                     type: string
-                tags:
+                    description: 文章Markdown内容
+                articleTags:
                     type: array
                     items:
-                        type: string
+                        $ref: '#/components/schemas/blog.v1.CreateArticleReq_ArticleTag'
+            description: 创建文章请求
+        blog.v1.CreateArticleReq_ArticleTag:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 标签名称
+            description: 文章标签
         blog.v1.CreateTagReply:
             type: object
             properties:
                 tag:
-                    $ref: '#/components/schemas/common.model.Tag'
+                    $ref: '#/components/schemas/common.model.ArticleTag'
         blog.v1.CreateTagReq:
             type: object
             properties:
@@ -231,20 +253,24 @@ components:
             properties:
                 article:
                     $ref: '#/components/schemas/common.model.Article'
+            description: 获取单个文章响应
         blog.v1.GetTagReply:
             type: object
             properties:
                 tag:
-                    $ref: '#/components/schemas/common.model.Tag'
+                    $ref: '#/components/schemas/common.model.ArticleTag'
         blog.v1.ListArticleReply:
             type: object
             properties:
                 total:
                     type: string
+                    description: 总数
                 articles:
                     type: array
                     items:
                         $ref: '#/components/schemas/common.model.Article'
+                    description: 文章列表
+            description: 列出文章响应
         blog.v1.ListTagReply:
             type: object
             properties:
@@ -253,7 +279,7 @@ components:
                 tags:
                     type: array
                     items:
-                        $ref: '#/components/schemas/common.model.Tag'
+                        $ref: '#/components/schemas/common.model.ArticleTag'
         blog.v1.UpdateArticleReq:
             type: object
             properties:
@@ -267,6 +293,11 @@ components:
                     type: string
                 contentMd:
                     type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+            description: 更新文章请求
         blog.v1.UpdateTagReq:
             type: object
             properties:
@@ -279,34 +310,51 @@ components:
             properties:
                 id:
                     type: string
+                    description: 文章ID
                 title:
                     type: string
+                    description: 文章标题
                 summary:
                     type: string
+                    description: 文章摘要
                 image:
                     type: string
+                    description: 文章封面
                 contentMd:
                     type: string
+                    description: 文章Markdown内容
                 contentHtml:
                     type: string
+                    description: 文章HTML内容
                 views:
                     type: string
+                    description: 文章浏览量
                 tags:
                     type: array
                     items:
-                        $ref: '#/components/schemas/common.model.Tag'
+                        $ref: '#/components/schemas/common.model.ArticleTag'
+                    description: 文章标签
                 createdAt:
                     type: string
+                    description: 文章创建时间
                     format: date-time
                 updatedAt:
                     type: string
+                    description: 文章更新时间
                     format: date-time
-        common.model.Tag:
+            description: 文章
+        common.model.ArticleTag:
             type: object
             properties:
                 id:
                     type: string
+                    description: 标签ID
+                articleId:
+                    type: string
+                    description: 文章ID
                 name:
                     type: string
+                    description: 标签名称
+            description: 文章标签
 tags:
     - name: Blog

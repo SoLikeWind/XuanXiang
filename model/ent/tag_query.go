@@ -25,7 +25,6 @@ type TagQuery struct {
 	inters       []Interceptor
 	predicates   []predicate.Tag
 	withArticles *ArticleQuery
-	withFKs      bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -371,15 +370,11 @@ func (tq *TagQuery) prepareQuery(ctx context.Context) error {
 func (tq *TagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Tag, error) {
 	var (
 		nodes       = []*Tag{}
-		withFKs     = tq.withFKs
 		_spec       = tq.querySpec()
 		loadedTypes = [1]bool{
 			tq.withArticles != nil,
 		}
 	)
-	if withFKs {
-		_spec.Node.Columns = append(_spec.Node.Columns, tag.ForeignKeys...)
-	}
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Tag).scanValues(nil, columns)
 	}

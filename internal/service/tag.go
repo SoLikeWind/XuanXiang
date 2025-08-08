@@ -17,7 +17,7 @@ func (s *BlogService) GetTag(ctx context.Context, req *v1.GetTagReq) (*v1.GetTag
 func (s *BlogService) ListTag(ctx context.Context, req *v1.ListTagReq) (*v1.ListTagReply, error) {
 	tags, total, err := s.tag.List(ctx, req.Page, req.PageSize, req.Name)
 	if err != nil {
-		return nil, errors.ERROR_LIST_TAG
+		return nil, errors.Error(errors.ERROR_LIST_TAG, err)
 	}
 
 	return &v1.ListTagReply{
@@ -31,7 +31,7 @@ func (s *BlogService) CreateTag(ctx context.Context, req *v1.CreateTagReq) (*v1.
 		Name: req.Name,
 	})
 	if err != nil {
-		return nil, errors.ERROR_CREATE_TAG
+		return nil, errors.Error(errors.ERROR_CREATE_TAG, err)
 	}
 
 	return &v1.CreateTagReply{
